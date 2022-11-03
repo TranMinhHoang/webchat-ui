@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from '~/routes';
-import BoxchatLayout from '~/layouts/Boxchat/components/BoxchatLayout';
+import BoxchatLayout from '~/layouts/BoxchatLayout';
 
 function App() {
     return (

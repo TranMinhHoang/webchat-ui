@@ -1,0 +1,18 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(green 0%, green 130px, rgb(216, 213, 213) 80%, rgb(216, 213, 213) 100%);
+    font-size: 16px;
+}
+
+.container {
+    position: relative; /*Vị trí của hộp được tính theo dòng chảy thông thường (đây được gọi là vị trí trong dòng chảy bình thường). Sau đó, hộp được bù đắp so với vị trí bình thường của nó.*/
+    width: 80%;
+    max-width: 100%;
+    height: calc(100vh - 60px);
+    background: #fff;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.06);
+    display: flex;
+}
