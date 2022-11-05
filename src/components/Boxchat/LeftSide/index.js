@@ -3,9 +3,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind';
 import styles from './LeftSide.module.scss';
 
+import Conversation from './Conversation';
+
 const cx = classNames.bind(styles);
 
 function LeftSide({ children }) {
+    const seen = ['conversation', 'seen'];
+    const unseen = ['conversation', 'unseen'];
+
     return (
         <div className={cx('leftside')}>
             <div className={cx('header')}>
@@ -26,6 +31,15 @@ function LeftSide({ children }) {
                     <input className={cx('search-input')} type="text" placeholder="Tìm kiếm" />
                     <FontAwesomeIcon className={cx('search-icon')} icon={faSearch} />
                 </div>
+            </div>
+            <div className={cx('chat-list')}>
+                <Conversation
+                    classNames={seen}
+                    srcImg="https://cdn.dienthoaivui.com.vn/wp-content/uploads/2020/10/hinh-nen-iphone-12-19-scaled.jpg"
+                    name="Nguyễn Thành Hưng"
+                    time="12:17"
+                    message="Thôi tìm đi! Hưng đi ngủ đây!chiều còn học"
+                />
             </div>
         </div>
     );

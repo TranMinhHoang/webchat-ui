@@ -1,5 +1,8 @@
 .leftside {
-    position: relative; /*tương đối*/
+    --height-header: 60px;
+    --height-search: 45px;
+    --height-chat_list: calc(100% - var(--height-header) - var(--height-search));
+    position: relative;
     flex: 30%;
     background: rgb(255, 255, 255);
     border-right: 1px solid rgba(0, 0, 0, 0.1);
@@ -8,7 +11,7 @@
 .header {
     position: relative;
     width: 100%;
-    height: 60px;
+    height: var(--height-header);
     background: #ededed;
     display: flex;
     justify-content: space-between;
@@ -23,15 +26,6 @@
     overflow: hidden;
     border-radius: 50%;
     cursor: pointer;
-}
-
-.cover {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
 }
 
 .nav-icon {
@@ -50,7 +44,7 @@
 .search-chat {
     position: relative;
     width: 100%;
-    height: 45px;
+    height: var(--height-search);
     background: #e0d7d7;
     display: flex;
     justify-content: center;
@@ -71,10 +65,16 @@
     height: 38px;
     border-radius: 10px;
     font-size: 14px;
-    padding-left: 30px;
+    padding-left: 38px;
 }
 .search-icon {
     position: absolute;
     left: 28px;
     top: 15px;
+}
+
+.chat-list {
+    position: relative;
+    height: var(--height-chat_list);
+    overflow-y: auto;
 }
