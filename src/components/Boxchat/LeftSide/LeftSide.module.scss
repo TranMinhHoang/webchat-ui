@@ -34,11 +34,20 @@
 }
 
 .nav-icon_item {
+    width: 34px;
+    height: 34px;
     display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
     color: var(--primary-color);
-    font-size: 1.25em;
+    font-size: 1.8rem;
     margin-left: 15px;
+    border: none;
+
+    &:hover {
+        background: #dbdbdb;
+    }
 }
 
 .search-chat {

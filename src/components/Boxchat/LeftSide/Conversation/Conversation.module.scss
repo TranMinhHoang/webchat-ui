@@ -1,15 +1,12 @@
 .conversation {
     position: relative;
     width: 100%;
+    height: 72px;
     display: flex;
     align-items: center;
     padding: 15px;
     border-bottom: 1px solid rgba(199, 196, 196, 0.5);
     cursor: pointer;
-}
-
-.seen {
-    background: #ebebeb;
 
     &:hover {
         background: #dbdbdb;
@@ -17,7 +14,15 @@
 
     .time {
         color: #111;
-        font-size: 1.3rem;
+        font-size: 1.2rem;
+    }
+}
+
+.unseen {
+    background: #ebebeb;
+
+    .time {
+        color: rgb(9, 170, 90);
     }
 }
 
@@ -39,10 +44,9 @@
 .listhead {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 3px;
 
     h4 {
-        font-size: 1.1em;
+        font-size: 1.8rem;
         font-weight: 600;
         color: #111;
     }
@@ -57,7 +61,7 @@
         color: #aaa;
         display: -webkit-box;
         -webkit-line-clamp: 1;
-        font-size: 0.9em;
+        font-size: 1.4rem;
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -71,6 +75,7 @@
         border-radius: 50%;
         display: flex;
         justify-content: center;
-        font-size: 0.77em;
+        align-items: center;
+        font-size: 1.1rem;
     }
 }

@@ -1,13 +1,16 @@
 import classNames from 'classnames/bind';
-import { Fragment } from 'react';
 import styles from './Conversation.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Conversation({ classNames, srcImg, name, time, message, unseen }) {
+function Conversation({ unseen, srcImg, name, time, message }) {
+    const classes = cx('conversation', {
+        unseen,
+    });
+
     return (
         <div>
-            <div className={cx(classNames[0], classNames[1])}>
+            <div className={classes}>
                 <div className={cx('imgbx')}>
                     <img src={srcImg} className={cx('cover')} alt="" />
                 </div>
@@ -18,7 +21,7 @@ function Conversation({ classNames, srcImg, name, time, message, unseen }) {
                     </div>
                     <div className={cx('message')}>
                         <p>{message}</p>
-                        {unseen ? <b>{unseen}</b> : <Fragment />}
+                        {unseen && <b>{unseen}</b>}
                     </div>
                 </div>
             </div>

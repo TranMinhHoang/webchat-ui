@@ -8,9 +8,6 @@ import Conversation from './Conversation';
 const cx = classNames.bind(styles);
 
 function LeftSide({ children }) {
-    const seen = ['conversation', 'seen'];
-    const unseen = ['conversation', 'unseen'];
-
     return (
         <div className={cx('leftside')}>
             <div className={cx('header')}>
@@ -22,8 +19,12 @@ function LeftSide({ children }) {
                     />
                 </div>
                 <div className={cx('nav-icon')}>
-                    <FontAwesomeIcon className={cx('nav-icon_item')} icon={faUserPlus} />
-                    <FontAwesomeIcon className={cx('nav-icon_item')} icon={faUserGroup} />
+                    <button className={cx('nav-icon_item')}>
+                        <FontAwesomeIcon icon={faUserPlus} />
+                    </button>
+                    <button className={cx('nav-icon_item')}>
+                        <FontAwesomeIcon icon={faUserGroup} />
+                    </button>
                 </div>
             </div>
             <div className={cx('search-chat')}>
@@ -34,7 +35,56 @@ function LeftSide({ children }) {
             </div>
             <div className={cx('chat-list')}>
                 <Conversation
-                    classNames={seen}
+                    // unseen="2"
+                    srcImg="https://cdn.dienthoaivui.com.vn/wp-content/uploads/2020/10/hinh-nen-iphone-12-19-scaled.jpg"
+                    name="Nguyễn Thành Hưng"
+                    time="12:17"
+                    message="Thôi tìm đi! Hưng đi ngủ đây!chiều còn học"
+                />
+                <Conversation
+                    // unseen="2"
+                    srcImg="https://cdn.dienthoaivui.com.vn/wp-content/uploads/2020/10/hinh-nen-iphone-12-19-scaled.jpg"
+                    name="Nguyễn Thành Hưng"
+                    time="12:17"
+                    message="Thôi tìm đi! Hưng đi ngủ đây!chiều còn học"
+                />
+                <Conversation
+                    unseen="2"
+                    srcImg="https://cdn.dienthoaivui.com.vn/wp-content/uploads/2020/10/hinh-nen-iphone-12-19-scaled.jpg"
+                    name="Nguyễn Thành Hưng"
+                    time="12:17"
+                    message="Thôi tìm đi! Hưng đi ngủ đây!chiều còn học"
+                />
+                <Conversation
+                    unseen="4"
+                    srcImg="https://cdn.dienthoaivui.com.vn/wp-content/uploads/2020/10/hinh-nen-iphone-12-19-scaled.jpg"
+                    name="Nguyễn Thành Hưng"
+                    time="12:17"
+                    message="Thôi tìm đi! Hưng đi ngủ đây!chiều còn học"
+                />
+                <Conversation
+                    // unseen="2"
+                    srcImg="https://cdn.dienthoaivui.com.vn/wp-content/uploads/2020/10/hinh-nen-iphone-12-19-scaled.jpg"
+                    name="Nguyễn Thành Hưng"
+                    time="12:17"
+                    message="Thôi tìm đi! Hưng đi ngủ đây!chiều còn học"
+                />
+                <Conversation
+                    // unseen="2"
+                    srcImg="https://cdn.dienthoaivui.com.vn/wp-content/uploads/2020/10/hinh-nen-iphone-12-19-scaled.jpg"
+                    name="Nguyễn Thành Hưng"
+                    time="12:17"
+                    message="Thôi tìm đi! Hưng đi ngủ đây!chiều còn học"
+                />
+                <Conversation
+                    // unseen="2"
+                    srcImg="https://cdn.dienthoaivui.com.vn/wp-content/uploads/2020/10/hinh-nen-iphone-12-19-scaled.jpg"
+                    name="Nguyễn Thành Hưng"
+                    time="12:17"
+                    message="Thôi tìm đi! Hưng đi ngủ đây!chiều còn học"
+                />
+                <Conversation
+                    // unseen="2"
                     srcImg="https://cdn.dienthoaivui.com.vn/wp-content/uploads/2020/10/hinh-nen-iphone-12-19-scaled.jpg"
                     name="Nguyễn Thành Hưng"
                     time="12:17"
