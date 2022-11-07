@@ -9,9 +9,9 @@ import Boxchat from '~/pages/Boxchat';
 
 // public routes
 const publicRoutes = [
-    { path: '/', component: Login, layout: SignLayout },
+    { path: '/', component: Boxchat },
+    { path: '/login', component: Login, layout: SignLayout },
     { path: '/register', component: Register, layout: SignLayout },
-    { path: '/boxchat', component: Boxchat },
 ];
 
 const privateRoutes = [];

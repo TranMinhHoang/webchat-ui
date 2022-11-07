@@ -14,7 +14,7 @@ function Register() {
             <FormGroup type="text" placeholder="Email" />
             <FormGroup type="text" placeholder="Số điện thoại" />
             <SignButton type="submit" value="Đăng ký" />
-            <Link to="/">
+            <Link to="/login">
                 <SignButton type="submit" value="Đăng nhập" />
             </Link>
         </Fragment>
