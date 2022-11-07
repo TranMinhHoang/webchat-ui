@@ -23,6 +23,25 @@ body {
     text-rendering: optimizeSpeed;
 }
 
+.header {
+    position: relative;
+    width: 100%;
+    height: 60px;
+    background: #ededed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+}
+.userimg {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    overflow: hidden; /*ẩn dấu text khi chiều cao của box không đủ chứa text*/
+    border-radius: 50%;
+    cursor: pointer; /* thay đổi chuột thành bàn tay khi trỏ vào ảnh */
+}
+
 .cover /*chỉnh ảnh*/ {
     position: absolute;
     top: 0;

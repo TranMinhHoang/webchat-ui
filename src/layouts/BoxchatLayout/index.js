@@ -5,7 +5,7 @@ import RightSide from '~/components/Boxchat/RightSide';
 
 const cx = classNames.bind(styles);
 
-function BoxchatLayout({ children }) {
+function BoxchatLayout() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
