@@ -3,7 +3,7 @@ import styles from './RightSide.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical, faFaceSmile, faImage, faSearch } from '@fortawesome/free-solid-svg-icons';
 import BoxChat from './BoxChat';
-import images from '~/assets/images';
+// import images from '~/assets/images';
 
 const cx = classNames.bind(styles);
 

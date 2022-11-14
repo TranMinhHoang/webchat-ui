@@ -1,18 +1,18 @@
 import { Link } from 'react-router-dom';
 import { Fragment } from 'react';
 import FormHeading from '~/components/SignForm/FormHeading';
-import FormGroup from '~/components/SignForm/FormGroup';
 import SignButton from '~/components/SignForm/SignButton';
+import { FormGroupPassword, FormGroupText } from '~/components/SignForm/FormGroup';
 
 function Register() {
     return (
         <Fragment>
             <FormHeading title="Đăng ký" />
-            <FormGroup type="text" placeholder="Tên đăng nhập" />
-            <FormGroup type="password" placeholder="Mật khẩu" />
-            <FormGroup type="password" placeholder="Xác nhận mật khẩu" />
-            <FormGroup type="text" placeholder="Email" />
-            <FormGroup type="text" placeholder="Số điện thoại" />
+            <FormGroupText type="text" placeholder="Tên đăng nhập" />
+            <FormGroupPassword type="password" placeholder="Mật khẩu" />
+            <FormGroupPassword type="password" placeholder="Xác nhận mật khẩu" />
+            <FormGroupText type="text" placeholder="Email" />
+            <FormGroupText type="text" placeholder="Số điện thoại" />
             <SignButton type="submit" value="Đăng ký" />
             <Link to="/login">
                 <SignButton type="submit" value="Đăng nhập" />
