@@ -1,0 +1,86 @@
+@mixin placeholder {
+    &::placeholder {
+        @content;
+    }
+
+    &::-webkit-input-placeholder {
+        @content;
+    }
+    &:-moz-placeholder {
+        @content;
+    }
+    &::-moz-placeholder {
+        @content;
+    }
+    &:-ms-input-placeholder {
+        @content;
+    }
+}
+
+.form-heading {
+    font-size: 25px;
+    color: beige;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    border-bottom: 1px solid #fff;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.form-input {
+    background: transparent;
+    border: 0;
+    outline: 0;
+    color: #fff;
+    flex-grow: 1;
+    font-size: 1.6rem;
+    line-height: 1.6;
+
+    &:hover {
+        border-bottom: 1px solid #ed4c67;
+    }
+
+    @include placeholder {
+        color: white;
+        opacity: 0.8;
+    }
+}
+
+.faEye-icon {
+    color: #fff;
+    padding-top: 5px;
+    padding-right: 3px;
+    cursor: pointer;
+}
+
+.form-submit {
+    margin-top: 40px !important;
+}
+
+.form-submit,
+.sign-btn {
+    background: transparent;
+    border: 1px solid #f5f5f5;
+    color: #fff;
+    width: 100%;
+    text-transform: uppercase;
+    padding: 6px 20px;
+    transition: 0.25s ease-in-out;
+    margin-top: 20px;
+    font-size: 1.6rem;
+
+    &:hover {
+        border: 1px solid #ed4c67;
+        color: red;
+        cursor: pointer;
+    }
+}
+
+.error-text {
+    font-size: 1.4rem;
+    color: #edff00;
+}
