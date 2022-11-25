@@ -3,6 +3,7 @@ import styles from './RightSide.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical, faFaceSmile, faImage, faSearch } from '@fortawesome/free-solid-svg-icons';
 import BoxChat from './BoxChat';
+import Image from '~/components/Image';
 // import images from '~/assets/images';
 
 const cx = classNames.bind(styles);
@@ -13,7 +14,7 @@ function RightSide() {
             <div className={cx('header')}>
                 <div className={cx('imgtext')}>
                     <div className={cx('userimg')}>
-                        <img
+                        <Image
                             src="https://cdn.dienthoaivui.com.vn/wp-content/uploads/2020/10/hinh-nen-iphone-12-19-scaled.jpg"
                             className={cx('cover')}
                             alt="ảnh của tôi"

@@ -1,9 +1,20 @@
 import classNames from 'classnames/bind';
+import { useEffect, useRef } from 'react';
 import styles from './BoxChat.module.scss';
 
 const cx = classNames.bind(styles);
 
 function BoxChat() {
+    const messageEndRef = useRef();
+
+    const scrollToBottom = () => {
+        messageEndRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    });
+
     return (
         <div className={cx('chatbox')}>
             <div className={cx('message', 'my_message')}>
@@ -69,13 +80,14 @@ function BoxChat() {
                     <span>12:16</span>
                 </p>
             </div>
-            <div className={cx('message', 'frnd_message')}>
+            <div ref={messageEndRef} className={cx('message', 'frnd_message')}>
                 <p>
                     Thôi tìm đi! Hưng đi ngủ đây!chiều còn học
                     <br />
                     12:17
                 </p>
             </div>
+            <div ref={messageEndRef} />
         </div>
     );
 }

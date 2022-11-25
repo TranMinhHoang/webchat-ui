@@ -28,6 +28,33 @@
     cursor: pointer;
 }
 
+// menu
+.menu {
+    background-color: #fff;
+    min-height: 50px;
+    width: 172px;
+    border: 1px solid rgb(148, 146, 146);
+    border-radius: 2px;
+}
+
+.menu-item {
+    width: 100%;
+    height: 30px;
+
+    &:hover {
+        background: #dbdbdb;
+        cursor: pointer;
+    }
+}
+
+.separate {
+    border-top: 1px solid rgba(22, 24, 35, 0.12);
+}
+
+.item-name {
+    padding-left: 10px;
+}
+
 .nav-icon {
     display: flex;
     padding-right: 10px;
