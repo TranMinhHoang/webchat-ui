@@ -1,0 +1,147 @@
+.head {
+    width: 340px;
+    position: fixed;
+    height: 70px;
+}
+.add_friend {
+    background-color: rgb(247, 240, 240);
+    width: 100%;
+    height: 38px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-weight: bold;
+    border-bottom: 1px solid #999;
+}
+.head_close {
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 0 4px;
+}
+
+.find_phone {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    /* outline: none; */
+}
+.find_phone input {
+    width: 90%;
+    margin: 15px 25px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    outline: none;
+    padding-bottom: 5px;
+}
+.phone-icon {
+    position: relative;
+    left: 15px;
+    font-size: 16px;
+    color: var(--primary-color);
+}
+.find_phone input:hover {
+    border-bottom: 1px solid var(--primary-color);
+}
+.form_body {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 140px);
+    top: 80px;
+    padding: 10px 10px;
+    overflow: auto;
+}
+.search_history {
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 5px;
+}
+
+.search_history_list {
+    width: 100%;
+}
+.search_history_item {
+    display: inline-flex;
+    width: 100%;
+    padding: 2px 0;
+    height: 50px;
+    align-items: center;
+    cursor: pointer;
+}
+.search_history_item_btn {
+    background: white;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    width: 70px;
+    height: 36px;
+    border-radius: 10px;
+    cursor: pointer;
+
+    &:hover {
+        background: #dbdbdb;
+    }
+}
+.search_history_item:hover {
+    background-color: rgb(235, 235, 235);
+}
+
+.search_history_item_avt {
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+}
+
+.search_history_item_info {
+    margin-left: 6px;
+    width: calc(100% - 38px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+/* .search_history_item ion-icon{
+    
+}
+.search_history_item_name {
+} */
+
+.search_history_item_phone {
+    font-size: 12px;
+    color: #666;
+}
+.form_footer {
+    position: absolute;
+    width: 100%;
+    height: 70px;
+    bottom: 0;
+    left: 0;
+    background-color: rgb(255, 255, 255);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border-top: rgb(255, 255, 255);
+}
+
+.form_footer button {
+    margin-right: 8px;
+    font-weight: bold;
+    width: 86px;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+}
+
+.search-btn {
+    background-color: var(--primary-color);
+    color: #fff;
+    margin-left: 16px;
+}
+
+.close {
+    background: #aaa;
+    margin-left: 100px;
+}

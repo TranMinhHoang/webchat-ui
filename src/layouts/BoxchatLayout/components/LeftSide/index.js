@@ -8,18 +8,24 @@ import Conversation from './Conversation';
 import Image from '~/components/Image';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import NewFriendsModal from './NewFriendsModal';
 
 const cx = classNames.bind(styles);
 
 function LeftSide({ children }) {
-    const [visible, setVisible] = useState(false);
+    const [isMenu, setIsMenu] = useState(false);
+    const [isNewFriendsModal, setIsNewFriendsModal] = useState(false);
 
     const handleShow = () => {
-        visible === false ? setVisible(true) : setVisible(false);
+        isMenu === false ? setIsMenu(true) : setIsMenu(false);
     };
 
     const handleHideMenu = () => {
-        setVisible(false);
+        setIsMenu(false);
+    };
+
+    const hanldeShowNewFriendsModal = () => {
+        setIsNewFriendsModal(!isNewFriendsModal);
     };
 
     return (
@@ -27,7 +33,7 @@ function LeftSide({ children }) {
             <div className={cx('header')}>
                 <Tippy
                     interactive
-                    visible={visible}
+                    visible={isMenu}
                     // delay={[0, 700]}
                     placement="right-start"
                     render={(attrs) => (
@@ -54,9 +60,10 @@ function LeftSide({ children }) {
                     </div>
                 </Tippy>
                 <div className={cx('nav-icon')}>
-                    <button className={cx('nav-icon_item')}>
+                    <button className={cx('nav-icon_item')} onClick={hanldeShowNewFriendsModal}>
                         <FontAwesomeIcon icon={faUserPlus} />
                     </button>
+
                     <button className={cx('nav-icon_item')}>
                         <FontAwesomeIcon icon={faUserGroup} />
                     </button>
@@ -80,6 +87,8 @@ function LeftSide({ children }) {
                 <Conversation />
                 <Conversation />
             </div>
+
+            {isNewFriendsModal && <NewFriendsModal onClick={hanldeShowNewFriendsModal} />}
         </div>
     );
 }
