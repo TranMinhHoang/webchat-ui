@@ -33,15 +33,23 @@ function BoxChat() {
     };
 
     const sendMessage = () => {
-        clientRef.current.sendMessage(
-            '/app/user-all',
-            JSON.stringify({
-                name: state.name,
-                message: state.typedMessage,
-            }),
-        );
-        setState((prev) => ({ ...prev, typedMessage: '' }));
-        inputRef.current.focus();
+        if (inputRef.current.value !== '') {
+            clientRef.current.sendMessage(
+                '/app/user-all',
+                JSON.stringify({
+                    name: state.name,
+                    message: state.typedMessage,
+                }),
+            );
+            setState((prev) => ({ ...prev, typedMessage: '' }));
+            inputRef.current.focus();
+        } else inputRef.current.focus();
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
     };
 
     const handleChangeInput = (e) => {
@@ -114,6 +122,7 @@ function BoxChat() {
                     type="text"
                     placeholder="Soạn tin nhắn"
                     onChange={handleChangeInput}
+                    onKeyDown={handleKeyDown}
                 />
                 {/* <img src={images.send} className={cx('icon', 'send')} alt="" /> */}
                 <svg className={cx('send')} viewBox="0 0 24 30" onClick={sendMessage}>
