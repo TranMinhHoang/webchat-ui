@@ -6,7 +6,7 @@ import { useMemo, useRef, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-function FormGroup({ name, type, placeholder, value = '', onChange, errorMessage, errorSubmitted = false }) {
+function FormGroup({ name, type, placeholder, value = '', maxLength, onChange, errorMessage, errorSubmitted = false }) {
     const inputRef = useRef();
     const [firstRender, setFirstRender] = useState(true);
 
@@ -38,6 +38,7 @@ function FormGroup({ name, type, placeholder, value = '', onChange, errorMessage
                     value={value}
                     spellCheck={false}
                     type={type}
+                    maxLength={maxLength}
                     className={cx('form-input')}
                     placeholder={placeholder}
                     onChange={onChange}
@@ -49,17 +50,13 @@ function FormGroup({ name, type, placeholder, value = '', onChange, errorMessage
                     </div>
                 )}
             </div>
-            {!firstRender && name === 'username' && (
-                <p className={cx('error-text')}>{errorMessage.username().message}</p>
-            )}
-            {!firstRender && name === 'password' && (
-                <p className={cx('error-text')}>{errorMessage.password().message}</p>
-            )}
+            {!firstRender && name === 'username' && <p className={cx('error-text')}>{errorMessage.username()}</p>}
+            {!firstRender && name === 'password' && <p className={cx('error-text')}>{errorMessage.password()}</p>}
             {!firstRender && name === 'confirmPassword' && (
-                <p className={cx('error-text')}>{errorMessage.confirmPassword().message}</p>
+                <p className={cx('error-text')}>{errorMessage.confirmPassword()}</p>
             )}
-            {!firstRender && name === 'email' && <p className={cx('error-text')}>{errorMessage.email().message}</p>}
-            {!firstRender && name === 'phone' && <p className={cx('error-text')}>{errorMessage.phone().message}</p>}
+            {!firstRender && name === 'email' && <p className={cx('error-text')}>{errorMessage.email()}</p>}
+            {!firstRender && name === 'phone' && <p className={cx('error-text')}>{errorMessage.phone()}</p>}
         </>
     );
 }

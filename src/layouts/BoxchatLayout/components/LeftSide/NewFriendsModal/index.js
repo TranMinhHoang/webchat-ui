@@ -65,6 +65,30 @@ function NewFriendsModal({ onClick }) {
                             </div>
                             <button className={cx('search_history_item_btn')}>Kết bạn</button>
                         </li>
+                        <li className={cx('search_history_item')}>
+                            <Image className={cx('search_history_item_avt')} src="./image/avt.jpg" />
+                            <div className={cx('search_history_item_info')}>
+                                <h5 className={cx('search_history_item_name')}>Nguyễn Thành Hưng</h5>
+                                <p className={cx('search_history_item_phone')}>Từ gợi ý kết bạn</p>
+                            </div>
+                            <button className={cx('search_history_item_btn')}>Kết bạn</button>
+                        </li>
+                        <li className={cx('search_history_item')}>
+                            <Image className={cx('search_history_item_avt')} src="./image/avt.jpg" />
+                            <div className={cx('search_history_item_info')}>
+                                <h5 className={cx('search_history_item_name')}>Nguyễn Thành Hưng</h5>
+                                <p className={cx('search_history_item_phone')}>Từ gợi ý kết bạn</p>
+                            </div>
+                            <button className={cx('search_history_item_btn')}>Kết bạn</button>
+                        </li>
+                        <li className={cx('search_history_item')}>
+                            <Image className={cx('search_history_item_avt')} src="./image/avt.jpg" />
+                            <div className={cx('search_history_item_info')}>
+                                <h5 className={cx('search_history_item_name')}>Nguyễn Thành Hưng</h5>
+                                <p className={cx('search_history_item_phone')}>Từ gợi ý kết bạn</p>
+                            </div>
+                            <button className={cx('search_history_item_btn')}>Kết bạn</button>
+                        </li>
                     </ul>
                 </div>
 

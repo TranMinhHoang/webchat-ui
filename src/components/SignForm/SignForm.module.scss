@@ -31,6 +31,11 @@
     display: flex;
 }
 
+.system-error {
+    font-size: 1.6rem;
+    color: #edff00;
+}
+
 .form-input {
     background: transparent;
     border: 0;
@@ -83,4 +88,53 @@
 .error-text {
     font-size: 1.4rem;
     color: #edff00;
+}
+
+.header_modal {
+    height: 80px;
+    position: relative;
+    border: 1px solid #999;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.icon-check {
+    height: 60px;
+    display: flex;
+    margin: auto;
+    padding-top: 9px;
+
+    & > path {
+        fill: var(--primary-color);
+    }
+}
+.icon-close {
+    position: absolute;
+    right: 8px;
+    top: 2px;
+    height: 24px;
+    opacity: 0.9;
+    cursor: pointer;
+}
+.success-text {
+    text-align: center;
+    padding: 10px 0;
+    font-size: 2.2rem;
+}
+
+.footer_modal {
+    height: 40px;
+}
+
+.link-btn {
+    text-decoration: none;
+    display: flex;
+    margin: auto;
+    background-color: var(--primary-color);
+    border: none;
+    height: 30px;
+    width: 86px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #fff;
 }

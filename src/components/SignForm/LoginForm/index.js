@@ -3,6 +3,7 @@ import styles from '~/components/SignForm/SignForm.module.scss';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import FormGroup from '../components/FormGroup';
+import { login } from '~/apis/auth';
 
 const cx = classNames.bind(styles);
 
@@ -41,10 +42,15 @@ function LoginForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if ((info.username === '') | (info.password === '')) {
+        if (info.username === '' || info.password === '') {
             seErrorSubmitted(true);
         } else {
-            console.log(info);
+            login(info)
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch(() => {});
+            // console.log(info);
         }
     };
     return (

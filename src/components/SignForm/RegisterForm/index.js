@@ -3,6 +3,10 @@ import styles from '~/components/SignForm/SignForm.module.scss';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import FormGroup from '../components/FormGroup';
+import { register } from '~/apis/auth';
+import Modal from '~/components/Modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
@@ -15,74 +19,49 @@ function RegisterForm() {
         phone: '',
     });
     const [errorSubmitted, seErrorSubmitted] = useState(false);
+    const [systemErrorMessage, setSySErrorMessage] = useState('');
+    const [success, setSuccess] = useState(false);
 
     const regex = {
         email: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-        phone: /^[0-9][A-Za-z0-9 -]*$/,
+        phone: /^-?\d+\.?\d*$/,
     };
 
     const errorMessage = {
         username: () => {
             if (info.username === '') {
-                return {
-                    message: 'Hãy nhập tên đăng nhập!',
-                    invalid: true,
-                };
+                return 'Hãy nhập tên đăng nhập!';
             } else return true;
         },
         password: () => {
             if (info.password.length <= 0) {
-                return {
-                    message: 'Hãy nhập mật khẩu!',
-                    invalid: true,
-                };
+                return 'Hãy nhập mật khẩu!';
             } else if (info.password.length < 6) {
-                return {
-                    message: 'Mật khẩu phải trên 6 ký tự!',
-                    invalid: true,
-                };
+                return 'Mật khẩu phải trên 6 ký tự!';
             } else return true;
         },
         confirmPassword: () => {
             if (info.confirmPassword.length <= 0) {
-                return {
-                    message: 'Hãy nhập xác nhận mật khẩu!',
-                    invalid: true,
-                };
+                return 'Hãy nhập xác nhận mật khẩu!';
             }
             if (info.confirmPassword !== info.password) {
-                return {
-                    message: 'Mật khẩu không trùng khớp!',
-                    invalid: true,
-                };
+                return 'Mật khẩu không trùng khớp!';
             } else return true;
         },
         email: () => {
             if (info.email === '') {
-                return {
-                    message: 'Hãy nhập email!',
-                    invalid: true,
-                };
+                return 'Hãy nhập email!';
             }
             if (!regex.email.test(info.email)) {
-                return {
-                    message: 'Địa chỉ email không hợp lệ!',
-                    invalid: true,
-                };
+                return 'Địa chỉ email không hợp lệ!';
             } else return true;
         },
         phone: () => {
             if (info.phone === '') {
-                return {
-                    message: 'Hãy nhập số điện thoại!',
-                    invalid: true,
-                };
+                return 'Hãy nhập số điện thoại!';
             }
             if (!regex.phone.test(info.phone)) {
-                return {
-                    message: 'Số điện thoại không hợp lệ!',
-                    invalid: true,
-                };
+                return 'Số điện thoại không hợp lệ!';
             } else return true;
         },
     };
@@ -97,72 +76,101 @@ function RegisterForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (
-            (info.username === '') |
-            (0 < info.password.length < 6) |
-            (info.confirmPassword !== info.password) |
-            (info.email === '' && regex.email.test(info.email)) |
-            (info.phone === '' && regex.phone.test(info.phone))
+            info.username === '' ||
+            (0 < info.password.length && info.password.length < 6) ||
+            info.confirmPassword !== info.password ||
+            info.email === '' ||
+            !regex.email.test(info.email) ||
+            info.phone === '' ||
+            !regex.phone.test(info.phone)
         ) {
             seErrorSubmitted(true);
         } else {
             console.log(info);
+            register(info)
+                .then((res) => {
+                    setSuccess(true);
+                })
+                .catch((err) => setSySErrorMessage(err.response.data.message));
         }
     };
 
-    return (
-        <form action="" method="POST">
-            <h1 className={cx('form-heading')}>Đăng ký</h1>
-            <FormGroup
-                type="text"
-                name="username"
-                placeholder="Tên đăng nhập"
-                value={info.username}
-                onChange={handleChangeInput}
-                errorMessage={errorMessage}
-                errorSubmitted={errorSubmitted}
-            />
-            <FormGroup
-                type="password"
-                name="password"
-                placeholder="Mật khẩu"
-                value={info.password}
-                onChange={handleChangeInput}
-                errorMessage={errorMessage}
-                errorSubmitted={errorSubmitted}
-            />
-            <FormGroup
-                type="password"
-                name="confirmPassword"
-                placeholder="Xác nhận mật khẩu"
-                value={info.confirmPassword}
-                onChange={handleChangeInput}
-                errorMessage={errorMessage}
-                errorSubmitted={errorSubmitted}
-            />
-            <FormGroup
-                type="text"
-                name="email"
-                placeholder="Email"
-                value={info.email}
-                onChange={handleChangeInput}
-                errorMessage={errorMessage}
-                errorSubmitted={errorSubmitted}
-            />
-            <FormGroup
-                type="text"
-                name="phone"
-                placeholder="Số điện thoại"
-                value={info.phone}
-                onChange={handleChangeInput}
-                errorMessage={errorMessage}
-                errorSubmitted={errorSubmitted}
-            />
+    const handleCloseModal = () => {
+        setSuccess(false);
+    };
 
-            <input type="submit" value="Đăng ký" className={cx('form-submit')} onClick={handleSubmit} />
-            <Link to="/login">
-                <button className={cx('sign-btn')}>Đăng nhập</button>
-            </Link>
-        </form>
+    return (
+        <>
+            <form action="" method="POST">
+                <h1 className={cx('form-heading')}>Đăng ký</h1>
+                <p className={cx('system-error')}>{systemErrorMessage}</p>
+                <FormGroup
+                    type="text"
+                    name="username"
+                    placeholder="Tên đăng nhập"
+                    value={info.username}
+                    onChange={handleChangeInput}
+                    errorMessage={errorMessage}
+                    errorSubmitted={errorSubmitted}
+                />
+                <FormGroup
+                    type="password"
+                    name="password"
+                    placeholder="Mật khẩu"
+                    value={info.password}
+                    onChange={handleChangeInput}
+                    errorMessage={errorMessage}
+                    errorSubmitted={errorSubmitted}
+                />
+                <FormGroup
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="Xác nhận mật khẩu"
+                    value={info.confirmPassword}
+                    onChange={handleChangeInput}
+                    errorMessage={errorMessage}
+                    errorSubmitted={errorSubmitted}
+                />
+                <FormGroup
+                    type="text"
+                    name="email"
+                    placeholder="Email"
+                    value={info.email}
+                    onChange={handleChangeInput}
+                    errorMessage={errorMessage}
+                    errorSubmitted={errorSubmitted}
+                />
+                <FormGroup
+                    type="text"
+                    name="phone"
+                    placeholder="Số điện thoại"
+                    value={info.phone}
+                    maxLength="10"
+                    onChange={handleChangeInput}
+                    errorMessage={errorMessage}
+                    errorSubmitted={errorSubmitted}
+                />
+
+                <input type="submit" value="Đăng ký" className={cx('form-submit')} onClick={handleSubmit} />
+                <Link to="/login">
+                    <button className={cx('sign-btn')}>Đăng nhập</button>
+                </Link>
+            </form>
+            {success && (
+                <Modal onClick={handleCloseModal}>
+                    <div className={cx('header_modal')}>
+                        <FontAwesomeIcon className={cx('icon-check')} icon={faCircleCheck} />
+                        <FontAwesomeIcon className={cx('icon-close')} icon={faXmark} onClick={handleCloseModal} />
+                    </div>
+                    <p className={cx('success-text')}>Đăng ký thành công</p>
+                    <div className={cx('footer_modal')}>
+                        <Link to="/login" className={cx('link-btn')}>
+                            Đăng nhập
+                        </Link>
+                    </div>
+                </Modal>
+            )}
+        </>
     );
 }
 
