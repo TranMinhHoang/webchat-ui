@@ -1,12 +1,15 @@
 import classNames from 'classnames/bind';
-import styles from '~/components/SignForm/SignForm.module.scss';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import FormGroup from '../components/FormGroup';
-import { register } from '~/apis/auth';
-import Modal from '~/components/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch } from 'react-redux';
+
+import FormGroup from '../components/FormGroup';
+// import { register } from '~/apis/auth';
+import Modal from '~/components/Modal';
+import styles from '~/components/SignForm/SignForm.module.scss';
+import { register } from '~/redux/apiRequest';
 
 const cx = classNames.bind(styles);
 
@@ -15,16 +18,16 @@ function RegisterForm() {
         username: '',
         password: '',
         confirmPassword: '',
+        fullname: '',
         email: '',
-        phone: '',
     });
     const [errorSubmitted, seErrorSubmitted] = useState(false);
     const [systemErrorMessage, setSySErrorMessage] = useState('');
     const [success, setSuccess] = useState(false);
+    const dispatch = useDispatch();
 
     const regex = {
         email: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-        phone: /^-?\d+\.?\d*$/,
     };
 
     const errorMessage = {
@@ -48,20 +51,17 @@ function RegisterForm() {
                 return 'Mật khẩu không trùng khớp!';
             } else return true;
         },
+        fullname: () => {
+            if (info.fullname === '') {
+                return 'Hãy nhập họ và tên!';
+            } else return true;
+        },
         email: () => {
             if (info.email === '') {
                 return 'Hãy nhập email!';
             }
             if (!regex.email.test(info.email)) {
                 return 'Địa chỉ email không hợp lệ!';
-            } else return true;
-        },
-        phone: () => {
-            if (info.phone === '') {
-                return 'Hãy nhập số điện thoại!';
-            }
-            if (!regex.phone.test(info.phone)) {
-                return 'Số điện thoại không hợp lệ!';
             } else return true;
         },
     };
@@ -71,6 +71,7 @@ function RegisterForm() {
             ...prev,
             [e.target.name]: e.target.value,
         }));
+        setSySErrorMessage(false);
     };
 
     const handleSubmit = (e) => {
@@ -79,19 +80,18 @@ function RegisterForm() {
             info.username === '' ||
             (0 < info.password.length && info.password.length < 6) ||
             info.confirmPassword !== info.password ||
+            info.fullname === '' ||
             info.email === '' ||
-            !regex.email.test(info.email) ||
-            info.phone === '' ||
-            !regex.phone.test(info.phone)
+            !regex.email.test(info.email)
         ) {
             seErrorSubmitted(true);
         } else {
-            console.log(info);
-            register(info)
-                .then((res) => {
-                    setSuccess(true);
-                })
-                .catch((err) => setSySErrorMessage(err.response.data.message));
+            // register(info)
+            //     .then((res) => {
+            //         setSuccess(true);
+            //     })
+            //     .catch((err) => setSySErrorMessage(err.response.data.message));
+            register(info, dispatch, setSuccess, setSySErrorMessage);
         }
     };
 
@@ -133,19 +133,18 @@ function RegisterForm() {
                 />
                 <FormGroup
                     type="text"
-                    name="email"
-                    placeholder="Email"
-                    value={info.email}
+                    name="fullname"
+                    placeholder="Họ và tên"
+                    value={info.fullname}
                     onChange={handleChangeInput}
                     errorMessage={errorMessage}
                     errorSubmitted={errorSubmitted}
                 />
                 <FormGroup
                     type="text"
-                    name="phone"
-                    placeholder="Số điện thoại"
-                    value={info.phone}
-                    maxLength="10"
+                    name="email"
+                    placeholder="Email"
+                    value={info.email}
                     onChange={handleChangeInput}
                     errorMessage={errorMessage}
                     errorSubmitted={errorSubmitted}

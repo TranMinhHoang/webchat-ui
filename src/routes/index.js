@@ -5,7 +5,7 @@ import SignLayout from '~/layouts/SignLayout';
 //Pages
 import Login from '~/pages/Login';
 import Register from '~/pages/Register';
-import Boxchat from '~/pages/Boxchat';
+import Boxchat from '~/pages/BoxChat';
 
 // public routes
 const publicRoutes = [

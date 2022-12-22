@@ -1,5 +1,7 @@
+import BoxchatLayout from '~/layouts/BoxchatLayout';
+
 function Boxchat() {
-    return <h2>Box chat</h2>;
+    return <BoxchatLayout />;
 }
 
 export default Boxchat;

@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from '~/routes';
-import BoxchatLayout from '~/layouts/BoxchatLayout';
+import Boxchat from './pages/BoxChat';
 
 function App() {
     return (
@@ -9,7 +9,7 @@ function App() {
                 <Routes>
                     {publicRoutes.map((route, index) => {
                         const Page = route.component;
-                        let Layout = BoxchatLayout;
+                        let Layout = Boxchat;
                         if (route.layout) {
                             Layout = route.layout;
                         }

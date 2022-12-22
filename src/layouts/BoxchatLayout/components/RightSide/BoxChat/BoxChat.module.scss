@@ -1,3 +1,33 @@
+.imgtext {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    h4 {
+        font-weight: 500;
+        line-height: 1.8rem;
+        margin-left: 15px;
+
+        span {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+        }
+    }
+}
+
+.nav-icon {
+    display: flex;
+    list-style: none; /*xóa dấu chấm của thẻ <li>*/
+
+    li {
+        height: 34px;
+        width: 34px;
+        line-height: 34px;
+        text-align: center;
+    }
+}
+
 .chatbox {
     position: relative; /*tương đối*/
     width: 100%;

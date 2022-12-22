@@ -4,7 +4,7 @@ import styles from './Conversation.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Conversation({}) {
+function Conversation() {
     // const classes = cx('conversation', {
     //     unseen,
     // });

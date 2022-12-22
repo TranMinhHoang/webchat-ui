@@ -6,7 +6,7 @@ import { useMemo, useRef, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-function FormGroup({ name, type, placeholder, value = '', maxLength, onChange, errorMessage, errorSubmitted = false }) {
+function FormGroup({ name, type, placeholder, value = '', onChange, errorMessage, errorSubmitted = false }) {
     const inputRef = useRef();
     const [firstRender, setFirstRender] = useState(true);
 
@@ -38,7 +38,6 @@ function FormGroup({ name, type, placeholder, value = '', maxLength, onChange, e
                     value={value}
                     spellCheck={false}
                     type={type}
-                    maxLength={maxLength}
                     className={cx('form-input')}
                     placeholder={placeholder}
                     onChange={onChange}
@@ -55,8 +54,8 @@ function FormGroup({ name, type, placeholder, value = '', maxLength, onChange, e
             {!firstRender && name === 'confirmPassword' && (
                 <p className={cx('error-text')}>{errorMessage.confirmPassword()}</p>
             )}
+            {!firstRender && name === 'fullname' && <p className={cx('error-text')}>{errorMessage.fullname()}</p>}
             {!firstRender && name === 'email' && <p className={cx('error-text')}>{errorMessage.email()}</p>}
-            {!firstRender && name === 'phone' && <p className={cx('error-text')}>{errorMessage.phone()}</p>}
         </>
     );
 }
