@@ -11,14 +11,19 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './BoxChat.module.scss';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Image from '~/components/Image';
+import { getConversation } from '~/redux/conversationSlice';
+import { json } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 function BoxChat({ user: userFriend }) {
+    // const messages = useSelector((state) => state.conversation.conversations);
+    // const count = useSelector((state) => state.conversation.count);
+    const dispatch = useDispatch();
     const [state, setState] = useState({
-        messages: [],
+        messages: JSON.parse(localStorage.getItem('messages') || '{}'),
         name: '',
         typedMessage: '',
     });
@@ -27,6 +32,7 @@ function BoxChat({ user: userFriend }) {
     const clientRef = useRef();
     const inputRef = useRef();
     const user = useSelector((state) => state.auth.login?.currentUser);
+
     // const userList = useSelector((state) => state.user.users?.allUsers);
 
     const scrollToBottom = () => {
@@ -71,34 +77,42 @@ function BoxChat({ user: userFriend }) {
     const displayMessages = () => {
         return (
             <div>
-                {state.messages.map((msg, index) => {
-                    return (
-                        <div key={index}>
-                            {state.name === msg.name ? (
-                                <div className={cx('message', 'my_message')}>
-                                    <div>
-                                        <p>{msg.message}</p>
-                                        <span>12:12</span>
+                {!!Object.keys(state.messages).length &&
+                    state?.messages?.[userFriend.id]?.map((msg, index) => {
+                        return (
+                            <div key={index}>
+                                {state.name === msg.name ? (
+                                    <div
+                                        className={cx('message', 'my_message')}
+                                    >
+                                        <div>
+                                            <p>{msg.message}</p>
+                                            <span>12:12</span>
+                                        </div>
                                     </div>
-                                </div>
-                            ) : (
-                                <div className={cx('message', 'frnd_message')}>
-                                    <div>
-                                        <p>{msg.message}</p>
-                                        <span>12:12</span>
+                                ) : (
+                                    <div
+                                        className={cx(
+                                            'message',
+                                            'frnd_message',
+                                        )}
+                                    >
+                                        <div>
+                                            <p>{msg.message}</p>
+                                            <span>12:12</span>
+                                        </div>
                                     </div>
-                                </div>
-                            )}
-                        </div>
-                    );
-                })}
+                                )}
+                            </div>
+                        );
+                    })}
             </div>
         );
     };
 
-    useEffect(() => {
-        scrollToBottom();
-    });
+    // useEffect(() => {
+    //     scrollToBottom();
+    // });
 
     return (
         <>
@@ -109,14 +123,6 @@ function BoxChat({ user: userFriend }) {
                     </div>
 
                     <h4>{userFriend.fullname}</h4>
-
-                    {/* {userList?.map((item) => {
-                        if (item.id === id) {
-                            return <h4 key={id}>{item.fullname}</h4>;
-                        }
-                    })} */}
-                    {/* <br />
-                        <span>Online</span> */}
                 </div>
                 <ul className={cx('nav-icon')}>
                     <li>
@@ -128,9 +134,8 @@ function BoxChat({ user: userFriend }) {
                 </ul>
             </div>
             <div className={cx('chatbox')}>
-                {/* <NameComponent setName={setName} /> */}
                 {displayMessages()}
-                <div ref={messageEndRef} />
+                <div ref={messageEndRef} className="abc" />
 
                 <SockJsClient
                     url="http://localhost:8080/websocket-chat/"
@@ -142,9 +147,23 @@ function BoxChat({ user: userFriend }) {
                         console.log('Disconnected');
                     }}
                     onMessage={(msg) => {
-                        var jobs = state.messages;
+                        var jobs = state.messages[userFriend.id] ?? [];
                         jobs.push(msg);
-                        setState((prev) => ({ ...prev, messages: jobs }));
+                        setState((prev) => ({
+                            ...prev,
+                            messages: {
+                                ...state.messages,
+                                [userFriend.id]: jobs,
+                            },
+                        }));
+                        localStorage.setItem(
+                            'messages',
+                            JSON.stringify({
+                                ...state.messages,
+                                [userFriend.id]: jobs,
+                            }),
+                        );
+                        scrollToBottom();
                         console.log(state);
                     }}
                     ref={clientRef}

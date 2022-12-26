@@ -18,72 +18,11 @@ import { getAllUsers, logout } from '~/redux/apiRequest';
 const cx = classNames.bind(styles);
 
 function LeftSide({ children, onClick: handleOpenConversation }) {
-    const listConversations = [
-        {
-            name: 'Nguyễn Thành Hưng',
-            img: <Image src="" className={cx('cover')} alt="" />,
-            time: '12:40',
-            message: '123 456 789 123 456 789 123 456 789 123 456 789',
-            unseen: '2',
-        },
-        {
-            name: 'Nguyễn Thành Nam',
-            img: <Image src="" className={cx('cover')} alt="" />,
-            time: '12:40',
-            message: '123 456 789 123 456 789 123 456 789 123 456 789',
-            unseen: '2',
-        },
-        {
-            name: 'Nguyễn Thành Hưng',
-            img: <Image src="" className={cx('cover')} alt="" />,
-            time: '12:40',
-            message: '123 456 789 123 456 789 123 456 789 123 456 789',
-            unseen: '2',
-        },
-        {
-            name: 'Nguyễn Thành Hưng',
-            img: <Image src="" className={cx('cover')} alt="" />,
-            time: '12:40',
-            message: '123 456 789 123 456 789 123 456 789 123 456 789',
-        },
-        {
-            name: 'Nguyễn Thành Hưng',
-            img: <Image src="" className={cx('cover')} alt="" />,
-            time: '12:50',
-            message: '123 456 789 123 456 789 123 456 789 123 456 789',
-        },
-        {
-            name: 'Nguyễn Thành Hưng',
-            img: <Image src="" className={cx('cover')} alt="" />,
-            time: '12:40',
-            message: '123 456 789 123 456 789 123 456 789 123 456 789',
-        },
-        {
-            name: 'Nguyễn Thành Hưng',
-            img: <Image src="" className={cx('cover')} alt="" />,
-            time: '12:40',
-            message: '123 456 789 123 456 789 123 456 789 123 456 789',
-            unseen: '2',
-        },
-        {
-            name: 'Nguyễn Thành Hưng',
-            img: <Image src="" className={cx('cover')} alt="" />,
-            time: '12:40',
-            message: '123 456 789 123 456 789 123 456 789 123 456 789',
-            unseen: '2',
-        },
-        {
-            name: 'Nguyễn Thành Hưng',
-            img: <Image src="" className={cx('cover')} alt="" />,
-            time: '12:40',
-            message: '123 456 789 123 456 789 123 456 789 123 456 789',
-            unseen: '2',
-        },
-    ];
     const [isMenu, setIsMenu] = useState(false);
     const [isNewFriendsModal, setIsNewFriendsModal] = useState(false);
     const user = useSelector((state) => state.auth.login?.currentUser);
     const userList = useSelector((state) => state.user.users?.allUsers);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 

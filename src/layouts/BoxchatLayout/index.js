@@ -8,8 +8,10 @@ const cx = classNames.bind(styles);
 
 function BoxchatLayout() {
     const [user, setUser] = useState({});
+
     const onClick = (item) => {
         setUser(item);
+        console.log(item);
     };
     return (
         <div className={cx('wrapper')}>

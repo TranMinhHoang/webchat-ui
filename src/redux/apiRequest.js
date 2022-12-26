@@ -9,6 +9,7 @@ import {
     registerSuccess,
 } from './authSlice';
 import { getUserFailed, getUsersStart, getUsersSuccess } from './userSlice';
+import { getConversation as _getConversation } from './conversationSlice';
 
 const URL = 'http://localhost:8080';
 
@@ -45,7 +46,7 @@ export const register = async (
 export const getAllUsers = async (accessToken, dispatch) => {
     dispatch(getUsersStart());
     try {
-        const res = await axios.get(`${URL}/api/auth/all`, {
+        const res = await axios.get(`${URL}/api/user`, {
             headers: { token: `Bearer ${accessToken}` },
         });
         dispatch(getUsersSuccess(res.data));
@@ -56,4 +57,8 @@ export const getAllUsers = async (accessToken, dispatch) => {
 
 export const logout = async (user, dispatch) => {
     dispatch(logoutUser(user));
+};
+
+export const getConversation = async (conversation, dispatch) => {
+    dispatch(_getConversation(conversation));
 };

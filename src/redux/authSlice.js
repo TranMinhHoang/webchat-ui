@@ -25,6 +25,7 @@ const authSlice = createSlice({
         loginSuccess: (state, action) => {
             state.login.isFetching = false;
             state.login.currentUser = action.payload;
+            console.log(action.payload);
             state.login.error = false;
         },
         loginFailed: (state) => {
@@ -35,7 +36,7 @@ const authSlice = createSlice({
         registerStart: (state) => {
             state.register.isFetching = true;
         },
-        registerSuccess: (state, action) => {
+        registerSuccess: (state) => {
             state.register.isFetching = false;
             state.register.error = false;
             state.register.success = true;
