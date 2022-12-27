@@ -9,24 +9,25 @@ import {
     faImage,
     faSearch,
 } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
 
 import styles from './BoxChat.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
 import Image from '~/components/Image';
-import { getConversation } from '~/redux/conversationSlice';
-import { json } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 function BoxChat({ user: userFriend }) {
     // const messages = useSelector((state) => state.conversation.conversations);
     // const count = useSelector((state) => state.conversation.count);
-    const dispatch = useDispatch();
+    var currentdate = new Date();
+    var datetime = currentdate.getHours() + ':' + currentdate.getMinutes();
     const [state, setState] = useState({
         messages: JSON.parse(localStorage.getItem('messages') || '{}'),
-        name: '',
+        from: '',
+        to: '',
         typedMessage: '',
     });
+    console.log(typeof datetime);
 
     const messageEndRef = useRef();
     const clientRef = useRef();
@@ -36,24 +37,30 @@ function BoxChat({ user: userFriend }) {
     // const userList = useSelector((state) => state.user.users?.allUsers);
 
     const scrollToBottom = () => {
-        messageEndRef.current?.scrollIntoView({
+        messageEndRef.current.scrollIntoView({
             block: 'end',
             behavior: 'smooth',
         });
     };
 
     useEffect(() => {
-        setState((prev) => ({ ...prev, name: user?.fullname }));
+        setState((prev) => ({
+            ...prev,
+            from: user?.id,
+            to: userFriend.id,
+        }));
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [userFriend]);
 
     const sendMessage = () => {
         if (inputRef.current.value !== '') {
             clientRef.current.sendMessage(
                 '/app/user-all',
                 JSON.stringify({
-                    name: state.name,
+                    from: state.from,
+                    to: state.to,
                     message: state.typedMessage,
+                    time: datetime,
                 }),
             );
             setState((prev) => ({ ...prev, typedMessage: '' }));
@@ -73,46 +80,50 @@ function BoxChat({ user: userFriend }) {
             typedMessage: e.target.value,
         }));
     };
-
     const displayMessages = () => {
         return (
-            <div>
+            <div style={{ height: '100%' }}>
                 {!!Object.keys(state.messages).length &&
                     state?.messages?.[userFriend.id]?.map((msg, index) => {
                         return (
                             <div key={index}>
-                                {state.name === msg.name ? (
+                                {Number(state.from) === Number(msg.from) ? (
                                     <div
                                         className={cx('message', 'my_message')}
                                     >
                                         <div>
                                             <p>{msg.message}</p>
-                                            <span>12:12</span>
+                                            <span>{msg.time}</span>
                                         </div>
                                     </div>
                                 ) : (
-                                    <div
-                                        className={cx(
-                                            'message',
-                                            'frnd_message',
+                                    <>
+                                        {user.id === Number(msg.to) && (
+                                            <div
+                                                className={cx(
+                                                    'message',
+                                                    'frnd_message',
+                                                )}
+                                            >
+                                                <div>
+                                                    <p>{msg.message}</p>
+                                                    <span>{msg.time}</span>
+                                                </div>
+                                            </div>
                                         )}
-                                    >
-                                        <div>
-                                            <p>{msg.message}</p>
-                                            <span>12:12</span>
-                                        </div>
-                                    </div>
+                                    </>
                                 )}
                             </div>
                         );
                     })}
+                <div ref={messageEndRef} style={{ height: '10px' }} />
             </div>
         );
     };
 
-    // useEffect(() => {
-    //     scrollToBottom();
-    // });
+    useEffect(() => {
+        scrollToBottom();
+    });
 
     return (
         <>
@@ -135,7 +146,6 @@ function BoxChat({ user: userFriend }) {
             </div>
             <div className={cx('chatbox')}>
                 {displayMessages()}
-                <div ref={messageEndRef} className="abc" />
 
                 <SockJsClient
                     url="http://localhost:8080/websocket-chat/"
@@ -149,6 +159,8 @@ function BoxChat({ user: userFriend }) {
                     onMessage={(msg) => {
                         var jobs = state.messages[userFriend.id] ?? [];
                         jobs.push(msg);
+                        console.log(msg, 'msg');
+                        console.log(jobs, 'jobs');
                         setState((prev) => ({
                             ...prev,
                             messages: {

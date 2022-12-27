@@ -44,7 +44,7 @@
     div {
         // position: relative;
         // right: 0;
-        max-width: 65%;
+        max-width: 80%;
         padding: 0 12px;
         background: #dcfcc4;
         border-radius: 10px;
@@ -73,7 +73,12 @@
             right: -13px;
             width: 21px;
             height: 10px;
-            background: linear-gradient(135deg, #dcfcc4 50%, transparent 50%, transparent);
+            background: linear-gradient(
+                135deg,
+                #dcfcc4 50%,
+                transparent 50%,
+                transparent
+            );
         }
     }
 }
@@ -89,7 +94,13 @@
             left: -13px;
             width: 21px;
             height: 10px;
-            background: linear-gradient(225deg, #f8f8f8 50%, #f8f8f8 50%, transparent 50%, transparent);
+            background: linear-gradient(
+                225deg,
+                #f8f8f8 50%,
+                #f8f8f8 50%,
+                transparent 50%,
+                transparent
+            );
         }
     }
 }
