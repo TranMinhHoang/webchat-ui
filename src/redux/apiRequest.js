@@ -9,7 +9,7 @@ import {
     registerSuccess,
 } from './authSlice';
 import { getUserFailed, getUsersStart, getUsersSuccess } from './userSlice';
-import { getConversation as _getConversation } from './conversationSlice';
+import { createConversation as _createConversation } from './conversationSlice';
 
 const URL = 'http://localhost:8080';
 
@@ -57,8 +57,4 @@ export const getAllUsers = async (accessToken, dispatch) => {
 
 export const logout = async (user, dispatch) => {
     dispatch(logoutUser(user));
-};
-
-export const getConversation = async (conversation, dispatch) => {
-    dispatch(_getConversation(conversation));
 };

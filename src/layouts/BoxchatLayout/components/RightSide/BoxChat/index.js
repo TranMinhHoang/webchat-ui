@@ -12,7 +12,7 @@ import {
 import { useSelector } from 'react-redux';
 
 import styles from './BoxChat.module.scss';
-import Image from '~/components/Image';
+import Avatar from 'react-avatar';
 
 const cx = classNames.bind(styles);
 
@@ -20,14 +20,16 @@ function BoxChat({ user: userFriend }) {
     // const messages = useSelector((state) => state.conversation.conversations);
     // const count = useSelector((state) => state.conversation.count);
     var currentdate = new Date();
-    var datetime = currentdate.getHours() + ':' + currentdate.getMinutes();
+    var datetime =
+        ('0' + currentdate.getHours()).slice(-2) +
+        ':' +
+        ('0' + currentdate.getMinutes()).slice(-2);
     const [state, setState] = useState({
         messages: JSON.parse(localStorage.getItem('messages') || '{}'),
         from: '',
         to: '',
         typedMessage: '',
     });
-    console.log(typeof datetime);
 
     const messageEndRef = useRef();
     const clientRef = useRef();
@@ -130,7 +132,11 @@ function BoxChat({ user: userFriend }) {
             <div className={cx('header')}>
                 <div className={cx('imgtext')}>
                     <div className={cx('userimg')}>
-                        <Image src="" className={cx('cover')} alt="" />
+                        <Avatar
+                            className={cx('cover')}
+                            name={userFriend.fullname}
+                            size="40"
+                        />
                     </div>
 
                     <h4>{userFriend.fullname}</h4>
@@ -157,22 +163,22 @@ function BoxChat({ user: userFriend }) {
                         console.log('Disconnected');
                     }}
                     onMessage={(msg) => {
-                        var jobs = state.messages[userFriend.id] ?? [];
+                        const id =
+                            Number(msg.to) === user.id ? msg.from : msg.to;
+                        const jobs = state.messages[id] ?? [];
                         jobs.push(msg);
-                        console.log(msg, 'msg');
-                        console.log(jobs, 'jobs');
                         setState((prev) => ({
                             ...prev,
                             messages: {
                                 ...state.messages,
-                                [userFriend.id]: jobs,
+                                [id]: jobs,
                             },
                         }));
                         localStorage.setItem(
                             'messages',
                             JSON.stringify({
                                 ...state.messages,
-                                [userFriend.id]: jobs,
+                                [id]: jobs,
                             }),
                         );
                         scrollToBottom();

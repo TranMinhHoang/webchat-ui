@@ -9,17 +9,26 @@ import classNames from 'classnames/bind';
 import { Fragment, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import SockJsClient from 'react-stomp';
 
 import styles from './LeftSide.module.scss';
-import Image from '~/components/Image';
 import NewFriendsModal from './NewFriendsModal';
 import { getAllUsers, logout } from '~/redux/apiRequest';
+import Avatar from 'react-avatar';
 
 const cx = classNames.bind(styles);
 
 function LeftSide({ children, onClick: handleOpenConversation }) {
     const [isMenu, setIsMenu] = useState(false);
     const [isNewFriendsModal, setIsNewFriendsModal] = useState(false);
+
+    const [state, setState] = useState({
+        messages: JSON.parse(localStorage.getItem('messages') || '{}'),
+        from: '',
+        to: '',
+        typedMessage: '',
+    });
+
     const user = useSelector((state) => state.auth.login?.currentUser);
     const userList = useSelector((state) => state.user.users?.allUsers);
 
@@ -49,12 +58,40 @@ function LeftSide({ children, onClick: handleOpenConversation }) {
         if (user?.accessToken) {
             getAllUsers(user?.accessToken, dispatch);
         }
+        // userList.forEach((item) => {
+        //     setState((prev) => ({
+        //         ...prev,
+        //         messages: {
+        //             ...state.messages,
+        //             [item.id]: [],
+        //         },
+        //     }));
+        //     console.log(item.id);
+        // localStorage.setItem(
+        //     'messages',
+        //     JSON.stringify({
+        //         ...state.messages,
+        //         [item.id]: [],
+        //     }),
+        // );
+        // });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
+    console.log(state);
     return (
         <div className={cx('leftside')}>
             <div className={cx('header')}>
+                {/* <SockJsClient
+                    url="http://localhost:8080/websocket-chat/"
+                    topics={['/topic/user']}
+                    onConnect={() => {
+                        console.log('connected');
+                    }}
+                    onDisconnect={() => {
+                        console.log('Disconnected');
+                    }}
+                    onMessage={(msg) => {}}
+                /> */}
                 <Tippy
                     interactive
                     visible={isMenu}
@@ -92,10 +129,10 @@ function LeftSide({ children, onClick: handleOpenConversation }) {
                     onClickOutside={handleHideMenu}
                 >
                     <div className={cx('user-img')} onClick={handleShow}>
-                        <Image
+                        <Avatar
                             className={cx('cover')}
-                            src="https://pdp.edu.vn/wp-content/uploads/2021/01/hinh-nen-4k-tuyet-dep-cho-may-tinh.jpg"
-                            alt=""
+                            name={user?.fullname}
+                            size="40"
                         />
                     </div>
                 </Tippy>
@@ -140,10 +177,10 @@ function LeftSide({ children, onClick: handleOpenConversation }) {
                                 onClick={() => handleOpenConversation(item)}
                             >
                                 <div className={cx('imgbx')}>
-                                    <Image
-                                        src=""
+                                    <Avatar
                                         className={cx('cover')}
-                                        alt=""
+                                        name={item.fullname}
+                                        size="40"
                                     />
                                 </div>
                                 <div className={cx('details')}>

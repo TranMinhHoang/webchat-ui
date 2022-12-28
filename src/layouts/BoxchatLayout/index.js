@@ -1,9 +1,9 @@
 import classNames from 'classnames/bind';
 import { useState } from 'react';
+
 import styles from './BoxchatLayout.module.scss';
 import LeftSide from './components/LeftSide';
 import RightSide from './components/RightSide';
-
 const cx = classNames.bind(styles);
 
 function BoxchatLayout() {
