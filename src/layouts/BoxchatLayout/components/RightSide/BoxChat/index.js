@@ -16,7 +16,7 @@ import Avatar from 'react-avatar';
 
 const cx = classNames.bind(styles);
 
-function BoxChat({ user: userFriend }) {
+function BoxChat({ user: userFriend, state, setState }) {
     // const messages = useSelector((state) => state.conversation.conversations);
     // const count = useSelector((state) => state.conversation.count);
     var currentdate = new Date();
@@ -24,12 +24,12 @@ function BoxChat({ user: userFriend }) {
         ('0' + currentdate.getHours()).slice(-2) +
         ':' +
         ('0' + currentdate.getMinutes()).slice(-2);
-    const [state, setState] = useState({
-        messages: JSON.parse(localStorage.getItem('messages') || '{}'),
-        from: '',
-        to: '',
-        typedMessage: '',
-    });
+    // const [state, setState] = useState({
+    //     messages: JSON.parse(localStorage.getItem('messages') || '{}'),
+    //     from: '',
+    //     to: '',
+    //     typedMessage: '',
+    // });
 
     const messageEndRef = useRef();
     const clientRef = useRef();
@@ -51,7 +51,6 @@ function BoxChat({ user: userFriend }) {
             from: user?.id,
             to: userFriend.id,
         }));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userFriend]);
 
     const sendMessage = () => {
@@ -156,33 +155,33 @@ function BoxChat({ user: userFriend }) {
                 <SockJsClient
                     url="http://localhost:8080/websocket-chat/"
                     topics={['/topic/user']}
-                    onConnect={() => {
-                        console.log('connected');
-                    }}
-                    onDisconnect={() => {
-                        console.log('Disconnected');
-                    }}
+                    // onConnect={() => {
+                    //     console.log('connected');
+                    // }}
+                    // onDisconnect={() => {
+                    //     console.log('Disconnected');
+                    // }}
                     onMessage={(msg) => {
-                        const id =
-                            Number(msg.to) === user.id ? msg.from : msg.to;
-                        const jobs = state.messages[id] ?? [];
-                        jobs.push(msg);
-                        setState((prev) => ({
-                            ...prev,
-                            messages: {
-                                ...state.messages,
-                                [id]: jobs,
-                            },
-                        }));
-                        localStorage.setItem(
-                            'messages',
-                            JSON.stringify({
-                                ...state.messages,
-                                [id]: jobs,
-                            }),
-                        );
-                        scrollToBottom();
-                        console.log(state);
+                        // const id =
+                        //     Number(msg.to) === user.id ? msg.from : msg.to;
+                        // const jobs = state.messages[id] ?? [];
+                        // jobs.push(msg);
+                        // setState((prev) => ({
+                        //     ...prev,
+                        //     messages: {
+                        //         ...state.messages,
+                        //         [id]: jobs,
+                        //     },
+                        // }));
+                        // localStorage.setItem(
+                        //     'messages',
+                        //     JSON.stringify({
+                        //         ...state.messages,
+                        //         [id]: jobs,
+                        //     }),
+                        // );
+                        // scrollToBottom();
+                        // console.log(state);
                     }}
                     ref={clientRef}
                 />

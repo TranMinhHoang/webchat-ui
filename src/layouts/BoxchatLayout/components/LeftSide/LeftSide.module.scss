@@ -133,6 +133,7 @@
     position: relative;
     height: var(--height-chat_list);
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 // conversation
@@ -188,7 +189,7 @@
 
 .details {
     position: relative;
-    width: 100%;
+    width: calc(100% - 48px);
 }
 
 .listhead {

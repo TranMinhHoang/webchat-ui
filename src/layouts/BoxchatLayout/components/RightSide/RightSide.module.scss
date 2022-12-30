@@ -13,3 +13,20 @@
     //     // background: url(..//ProjectBoxChat/image/avt.jpg);
     // }
 }
+
+.container {
+    height: 100%;
+    width: 100%;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    padding-top: 150px;
+}
+
+.title {
+    text-align: center;
+}
+
+.text {
+    text-align: center;
+}

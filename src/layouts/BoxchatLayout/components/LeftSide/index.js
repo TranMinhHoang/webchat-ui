@@ -9,27 +9,19 @@ import classNames from 'classnames/bind';
 import { Fragment, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import SockJsClient from 'react-stomp';
 
 import styles from './LeftSide.module.scss';
-import NewFriendsModal from './NewFriendsModal';
+import NewFriendsModal from '~/components/NewFriendsModal';
 import { getAllUsers, logout } from '~/redux/apiRequest';
 import Avatar from 'react-avatar';
 
 const cx = classNames.bind(styles);
 
-function LeftSide({ children, onClick: handleOpenConversation }) {
+function LeftSide({ onClick: handleOpenConversation, state }) {
     const [isMenu, setIsMenu] = useState(false);
     const [isNewFriendsModal, setIsNewFriendsModal] = useState(false);
 
-    const [state, setState] = useState({
-        messages: JSON.parse(localStorage.getItem('messages') || '{}'),
-        from: '',
-        to: '',
-        typedMessage: '',
-    });
-
-    const user = useSelector((state) => state.auth.login?.currentUser);
+    const crrentUser = useSelector((state) => state.auth.login?.currentUser);
     const userList = useSelector((state) => state.user.users?.allUsers);
 
     const dispatch = useDispatch();
@@ -48,50 +40,21 @@ function LeftSide({ children, onClick: handleOpenConversation }) {
     };
 
     const handleLogOut = () => {
-        logout(user, dispatch);
+        logout(crrentUser, dispatch);
     };
 
     useEffect(() => {
-        if (!user) {
+        if (!crrentUser) {
             navigate('/login');
         }
-        if (user?.accessToken) {
-            getAllUsers(user?.accessToken, dispatch);
+        if (crrentUser?.accessToken) {
+            getAllUsers(crrentUser?.accessToken, dispatch);
         }
-        // userList.forEach((item) => {
-        //     setState((prev) => ({
-        //         ...prev,
-        //         messages: {
-        //             ...state.messages,
-        //             [item.id]: [],
-        //         },
-        //     }));
-        //     console.log(item.id);
-        // localStorage.setItem(
-        //     'messages',
-        //     JSON.stringify({
-        //         ...state.messages,
-        //         [item.id]: [],
-        //     }),
-        // );
-        // });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    console.log(state);
+
     return (
         <div className={cx('leftside')}>
             <div className={cx('header')}>
-                {/* <SockJsClient
-                    url="http://localhost:8080/websocket-chat/"
-                    topics={['/topic/user']}
-                    onConnect={() => {
-                        console.log('connected');
-                    }}
-                    onDisconnect={() => {
-                        console.log('Disconnected');
-                    }}
-                    onMessage={(msg) => {}}
-                /> */}
                 <Tippy
                     interactive
                     visible={isMenu}
@@ -99,7 +62,7 @@ function LeftSide({ children, onClick: handleOpenConversation }) {
                     render={(attrs) => (
                         <div className={cx('menu')} tabIndex="-1" {...attrs}>
                             <h3 className={cx('user-name')}>
-                                {user?.fullname}
+                                {crrentUser?.fullname}
                             </h3>
 
                             <Link
@@ -131,7 +94,7 @@ function LeftSide({ children, onClick: handleOpenConversation }) {
                     <div className={cx('user-img')} onClick={handleShow}>
                         <Avatar
                             className={cx('cover')}
-                            name={user?.fullname}
+                            name={crrentUser?.fullname}
                             size="40"
                         />
                     </div>
@@ -163,36 +126,52 @@ function LeftSide({ children, onClick: handleOpenConversation }) {
                 </div>
             </div>
             <div className={cx('chat-list')}>
-                {userList?.map((item) => {
-                    if (item.id === user?.id) {
-                        return <Fragment key={item.id} />;
+                {userList?.map((user) => {
+                    if (user.id === crrentUser?.id) {
+                        return <Fragment key={user.id} />;
                     } else {
                         return (
                             <div
-                                key={item.id}
+                                key={user.id}
                                 className={cx(
                                     'conversation',
-                                    item.unseen && 'unseen',
+                                    user.unseen && 'unseen',
                                 )}
-                                onClick={() => handleOpenConversation(item)}
+                                onClick={() => handleOpenConversation(user)}
                             >
                                 <div className={cx('imgbx')}>
                                     <Avatar
                                         className={cx('cover')}
-                                        name={item.fullname}
+                                        name={user.fullname}
                                         size="40"
                                     />
                                 </div>
                                 <div className={cx('details')}>
                                     <div className={cx('listhead')}>
-                                        <h4>{item.fullname}</h4>
+                                        <h4>{user.fullname}</h4>
                                         <p className={cx('time')}>
-                                            {item.time}
+                                            {state.messages[user.id] ? (
+                                                state.messages[user.id][
+                                                    state.messages[user.id]
+                                                        .length - 1
+                                                ].time
+                                            ) : (
+                                                <></>
+                                            )}
                                         </p>
                                     </div>
                                     <div className={cx('message')}>
-                                        <p>{item.message}</p>
-                                        <b>{item.unseen}</b>
+                                        <p>
+                                            {state.messages[user.id] ? (
+                                                state.messages[user.id][
+                                                    state.messages[user.id]
+                                                        .length - 1
+                                                ].message
+                                            ) : (
+                                                <></>
+                                            )}
+                                        </p>
+                                        <b>{user.unseen}</b>
                                     </div>
                                 </div>
                             </div>

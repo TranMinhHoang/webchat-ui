@@ -1,0 +1,796 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /*Chiều rộng và chiều cao được chỉ định (và các thuộc tính tối thiểu / tối đa tương ứng) trên phần tử này xác định hộp đường viền của phần tử. */
+    font-family: 'Open Sans', sans-serif;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(
+        green 0%,
+        green 130px,
+        rgb(216, 213, 213) 80%,
+        rgb(216, 213, 213) 100%
+    );
+    font-size: 16px;
+}
+.container {
+    position: relative; /*Vị trí của hộp được tính theo dòng chảy thông thường (đây được gọi là vị trí trong dòng chảy bình thường). Sau đó, hộp được bù đắp so với vị trí bình thường của nó.*/
+    width: 80%;
+    max-width: 100%;
+    height: calc(100vh - 60px);
+    background: #fff;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.06);
+    display: flex;
+}
+.leftside {
+    position: relative; /*tương đối*/
+    flex: 30%;
+    background: rgb(255, 255, 255);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+.rightside {
+    position: relative;
+    flex: 70%;
+    background: rgb(196, 194, 194);
+}
+.container.rightside::before {
+    content: '';
+    position: absolute; /*vị trí TUYỆT ĐỐI*/
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url(..//ProjectBoxChat/image/avt.jpg);
+}
+.header {
+    position: relative;
+    width: 100%;
+    height: 60px;
+    background: #ededed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+}
+.userimg {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    overflow: hidden; /*ẩn dấu text khi chiều cao của box không đủ chứa text*/
+    border-radius: 50%;
+    cursor: pointer; /* thay đổi chuột thành bàn tay khi trỏ vào ảnh */
+}
+.cover /*chỉnh ảnh*/ {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* cursor: pointer; */
+}
+.nav-icon {
+    display: flex;
+    list-style: none; /*xóa dấu chấm của thẻ <li>*/
+}
+.nav-icon_item {
+    display: flex;
+    /*xóa dấu chấm của thẻ <li>*/
+    cursor: pointer;
+    color: rgb(70, 68, 68);
+    font-size: 1.25em;
+    margin-left: 15px;
+    /* padding-left: 15px; */
+}
+.search-chat {
+    position: relative;
+    width: 100%;
+    height: 45px;
+    background: #e0d7d7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 15px;
+}
+.search-chat div {
+    width: 100%;
+}
+.search-chat div input {
+    width: 100%;
+    outline: none;
+    border: none;
+    background: #fff;
+    padding: 6px;
+    height: 38px;
+    border-radius: 10px;
+    font-size: 14px;
+    padding-left: 30px;
+}
+.search-chat div ion-icon {
+    position: absolute;
+    left: 28px;
+    top: 15px;
+}
+.chatlist {
+    position: relative;
+    /* width: 100%; */
+    height: calc(100% - 105px); /*trừ chiều cao của (search-chat + header)*/
+    overflow-y: auto;
+}
+.chatlist .block {
+    position: relative;
+    width: 100%;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid rgba(199, 196, 196, 0.5);
+    cursor: pointer;
+}
+.chatlist .block.active {
+    background: #ebebeb;
+}
+.chatlist .block:hover {
+    background: #dbdbdb;
+}
+.chatlist .block .imgbx {
+    position: relative;
+    min-width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-right: 8px;
+}
+.chatlist .block .details {
+    position: relative;
+    width: 100%;
+}
+.chatlist .block .details .listhead {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3px;
+}
+.chatlist .block .details .listhead h4 {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #111;
+}
+.chatlist .block .details .listhead .time {
+    font-size: 0.7em;
+    color: #aaa;
+}
+.chatlist .block .details .listhead .time {
+    color: #111;
+}
+.chatlist .block.unread .details .listhead .time {
+    color: rgb(9, 170, 90);
+}
+.message_p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.message_p p {
+    color: #aaa;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    font-size: 0.9em;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.message_p b {
+    background: rgb(9, 170, 90);
+    color: #fff;
+    min-width: 15px;
+    height: 14px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    font-size: 0.77em;
+}
+.imgtext {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.imgtext h4 {
+    font-weight: 500;
+    line-height: 1.2em;
+    margin-left: 15px;
+}
+.imgtext h4 span {
+    font-size: 0.8em;
+    color: #555;
+}
+.chatbox {
+    position: relative; /*tương đối*/
+    width: 100%;
+    height: calc(100% - 120px);
+    padding: 50px;
+    overflow-y: auto;
+}
+.message {
+    position: relative;
+    display: flex;
+    width: 100%;
+    margin: 5px 0;
+}
+.message p {
+    position: relative;
+    right: 0;
+    text-align: right;
+    max-width: 65%;
+    padding: 12px;
+    background: #dcfcc4;
+    border-radius: 10px;
+}
+.message p::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -12px;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(
+        135deg,
+        #dcfcc4 50%,
+        transparent 50%,
+        transparent
+    );
+}
+.message p span {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.85em;
+    opacity: 0.5;
+}
+
+.send {
+    margin-right: 10px;
+}
+.my_message {
+    justify-content: flex-end;
+}
+.frnd_message {
+    justify-content: flex-start;
+}
+/* .message*/
+.frnd_message p {
+    background: #fff;
+    text-align: left;
+}
+.message.frnd_message p::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -12px;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(
+        225deg,
+        #f8f8f8 50%,
+        #f8f8f8 50%,
+        transparent 50%,
+        transparent
+    );
+}
+.chatbox_input {
+    position: relative;
+    width: 100%;
+    height: 60px;
+    background: #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.chatbox_input ion-icon {
+    cursor: pointer; /*xác định kiểu con chuột được hiển thị*/
+    font-size: 1.6em;
+    color: #515855;
+}
+.chatbox_input ion-icon:nth-child(1) {
+    margin-left: 10px;
+}
+.chatbox_input input {
+    position: relative;
+    width: 90%;
+    margin: 0 20px;
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    border-radius: 30px;
+    font-size: 1em;
+}
+.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal__overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal__body {
+    margin: auto;
+    position: relative;
+    /* z-index: 1; */
+    border-radius: 5px;
+}
+
+.auth-form {
+    width: 300px;
+    height: 400px;
+    background-color: #fff;
+    border-radius: 5px;
+}
+.head {
+    width: 300px;
+    position: fixed;
+    height: 70px;
+}
+.add_friend {
+    background-color: rgb(247, 240, 240);
+    width: 100%;
+    height: 38px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-weight: bold;
+    border-bottom: 1px solid #999;
+}
+.head_close {
+    font-size: 30px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+.head_close:hover {
+    background: rgb(216, 213, 213);
+}
+.find_phone {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    /* outline: none; */
+}
+.find_phone input {
+    width: 90%;
+    margin: 15px 25px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    outline: none;
+    padding-bottom: 5px;
+}
+.find_phone ion-icon {
+    position: relative;
+    left: 22px;
+    cursor: pointer;
+    font-size: 23px;
+}
+.find_phone input:hover {
+    border-bottom: 1px solid blue;
+}
+.form_body {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 140px);
+    top: 80px;
+    padding: 10px 10px;
+    overflow: auto;
+}
+.search_history {
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 5px;
+}
+
+.search_history_list {
+    width: 100%;
+}
+.search_history_item {
+    display: inline-flex;
+    width: 100%;
+    padding: 2px 0;
+    height: 50px;
+    align-items: center;
+    cursor: pointer;
+}
+.search_history_item_btn {
+    background: white;
+    border: 1px solid blue;
+    color: blue;
+    width: 70px;
+    height: 36px;
+    border-radius: 10px;
+}
+.search_history_item:hover {
+    background-color: rgb(235, 235, 235);
+}
+
+.search_history_item_avt {
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+}
+
+.search_history_item_info {
+    margin-left: 6px;
+    width: calc(100% - 38px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+/* .search_history_item ion-icon{
+    
+}
+.search_history_item_name {
+} */
+
+.search_history_item_phone {
+    font-size: 12px;
+    color: #666;
+}
+.form_footer {
+    position: absolute;
+    width: 300px;
+    height: 70px;
+    bottom: 0;
+    left: 0;
+    background-color: rgb(255, 255, 255);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border-top: rgb(255, 255, 255);
+}
+
+.form_footer button {
+    margin-right: 8px;
+    font-weight: bold;
+    width: 86px;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+}
+.Kb {
+    background: blue;
+    color: white;
+}
+.close {
+    background: #aaa;
+    margin-left: 100px;
+}
+.modal_myinfo {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: none;
+}
+.modal_myinfo .myinfo_form {
+    width: 300px;
+    height: 500px;
+    background-color: white;
+    position: absolute;
+    margin-top: 5%;
+    margin-left: 36%;
+    border: none;
+    border-radius: 5px;
+    z-index: 1;
+}
+.modal_myinfo .myinfo_form .header_myinfo {
+    width: 100%;
+    height: 50px;
+    background-color: #ffffff;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+}
+.modal_myinfo .myinfo_form .header_myinfo span {
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'barlow', sans-serif;
+    margin-left: 10px;
+}
+.modal_myinfo .myinfo_form .header_myinfo ion-icon {
+    font-size: 30px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.modal_myinfo .myinfo_form .header_myinfo ion-icon:hover {
+    background-color: #dbdbdb;
+    border-radius: 50%;
+}
+.body_myinfo {
+    width: 100%;
+    height: 370px;
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+}
+.body_myinfo .img_cover {
+    position: absolute;
+    background-color: #111;
+    height: 30%;
+    width: 100%;
+    overflow: hidden;
+}
+.body_myinfo .img_cover .img_cover1 {
+    object-fit: contain;
+    height: auto;
+    width: 100%;
+}
+.body_myinfo .img_avtinfo .img_cover2 {
+    object-fit: contain;
+    height: 70px;
+    width: 70px;
+}
+.img_avtinfo {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid white;
+    width: 70px;
+    height: 70px;
+    overflow: hidden;
+    margin-top: 75px;
+}
+.info {
+    width: 90%;
+    height: 226px;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    bottom: 0;
+}
+.info .name {
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+.iteminfo {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+}
+.text_iteminfo {
+    width: 100%;
+    height: 15px;
+    font-size: 14px;
+}
+
+.info li {
+    list-style: none;
+    font-size: 14px;
+    margin-top: 15px;
+}
+.left_myinfo li {
+    color: #555;
+}
+
+.footer_myinfo {
+    width: 300px;
+    height: 65px;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    bottom: 0;
+    border-radius: 5px;
+}
+.footer_myinfo1 {
+    width: 300px;
+    height: 65px;
+    background-color: rgb(255, 255, 255);
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+.update_info {
+    border: none;
+    height: 60%;
+    width: 90%;
+    border-radius: 10px;
+    background-color: rgba(201, 201, 201, 0.39);
+}
+.update_info .text_update {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.modal_create_group {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.create_group {
+    height: 600px;
+    width: 400px;
+    background-color: #fff;
+    border-radius: 5px;
+    position: relative;
+}
+.header_create_group {
+    width: 100%;
+    height: 50px;
+    background-color: #ffffff;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    border-bottom: 1px solid #dbdbdb;
+}
+.text_header_create_group span {
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'barlow', sans-serif;
+    margin-left: 10px;
+}
+/* .close_header_create_group{
+    font-size: 30px;
+    cursor: pointer;
+    margin-right: 10px;
+    border-radius: 50%;
+    background-color: #111;
+} */
+.close_header_create_group ion-icon {
+    font-size: 30px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.close_header_create_group ion-icon:hover {
+    border-radius: 50%;
+    background-color: #dbdbdb;
+}
+.add_inp_group {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.find_namegroup {
+    width: 95%;
+    display: inline;
+}
+.find_namegroup input {
+    outline: none;
+    width: 100%;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px solid #dbdbdb;
+    float: right;
+    padding: 5px;
+    margin-top: 8px;
+}
+.find_namegroup input:hover {
+    border-bottom: 1px solid #bdbdf0;
+}
+.add_group {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 95%;
+    margin-top: 10px;
+}
+.add_group span {
+    font-size: 15px;
+}
+.add_group input {
+    border-radius: 20px;
+    padding: 8px;
+    margin-top: 8px;
+    border: 1px solid #dbdbdb;
+    outline: none;
+}
+.add_group input:hover {
+    border: 1px solid #b4b4ed;
+}
+.footer_create_group {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top: 1px solid #dbdbdb;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 15%;
+}
+.footer_create_group button {
+    padding: 10px 15px;
+    margin: 0 8px;
+    border: none;
+    border-radius: 3px;
+    color: white;
+}
+.close_footer_create_group button {
+    color: #111;
+}
+.close_footer_create_group button:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+.create_footer_create_group button:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+.create_footer_create_group button {
+    background-color: rgb(61, 61, 252);
+    opacity: 0.8;
+}
+.modal_body_create_group {
+    width: 100%;
+    height: calc(100% - 15% - 152px);
+    display: flex;
+    justify-content: center;
+    /* overflow-y: hidden; */
+}
+.body_create_group {
+    width: 95%;
+    border-top: 1px solid #dbdbdb;
+    margin-top: 25px;
+    height: calc(100% - 15% - 177px);
+    position: absolute;
+    overflow-y: scroll;
+}
+.item_body_create_group {
+    width: 100%;
+    height: 10%;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 15px;
+}
+.img_item_body_create_group {
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+.img_item_body_create_group input {
+    margin-right: 1rem;
+}
+.img_item_body_create_group img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
