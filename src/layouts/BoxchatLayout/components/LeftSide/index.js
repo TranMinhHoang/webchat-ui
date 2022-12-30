@@ -21,7 +21,7 @@ const cx = classNames.bind(styles);
 function LeftSide({ onClick: handleOpenConversation, state }) {
     const [isMenu, setIsMenu] = useState(false);
     const [isNewFriendsModal, setIsNewFriendsModal] = useState(false);
-    const [isProfileModal, setIsProfileModal] = useState(true);
+    const [isProfileModal, setIsProfileModal] = useState(false);
 
     const currentUser = useSelector((state) => state.auth.login?.currentUser);
     const userList = useSelector((state) => state.user.users?.allUsers);
@@ -42,6 +42,7 @@ function LeftSide({ onClick: handleOpenConversation, state }) {
     };
 
     const hanldeShowProfileModal = () => {
+        setIsMenu(!isMenu);
         setIsProfileModal(!isProfileModal);
     };
 
