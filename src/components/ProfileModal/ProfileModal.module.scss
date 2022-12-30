@@ -1,0 +1,154 @@
+// .modal_myinfo {
+//     width: 100%;
+//     height: 100%;
+//     top: 0;
+//     left: 0;
+//     right: 0;
+//     bottom: 0;
+//     position: fixed;
+//     background-color: rgba(0, 0, 0, 0.4);
+//     display: none;
+// }
+// .modal_myinfo .myinfo_form {
+//     width: 300px;
+//     height: 500px;
+//     background-color: white;
+//     position: absolute;
+//     margin-top: 5%;
+//     margin-left: 36%;
+//     border: none;
+//     border-radius: 5px;
+//     z-index: 1;
+// }
+.header_myinfo {
+    width: 100%;
+    height: 50px;
+    background-color: #ffffff;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+
+    span {
+        font-size: 16px;
+        font-weight: 600;
+        font-family: 'barlow', sans-serif;
+        margin-left: 10px;
+    }
+}
+
+.myinfo_close {
+    font-size: 20px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.body_myinfo {
+    width: 100%;
+    height: 370px;
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+}
+
+.img_cover {
+    position: absolute;
+    background-color: #111;
+    height: 30%;
+    width: 100%;
+    overflow: hidden;
+}
+// .body_myinfo .img_cover .img_cover1 {
+//     object-fit: contain;
+//     height: auto;
+//     width: 100%;
+// }
+// .body_myinfo .img_avtinfo .img_cover2 {
+//     object-fit: contain;
+//     height: 70px;
+//     width: 70px;
+// }
+.img_avtinfo {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid white;
+    width: 70px;
+    height: 70px;
+    overflow: hidden;
+    margin-top: 75px;
+}
+
+.info {
+    width: 90%;
+    height: 226px;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    bottom: 0;
+}
+
+.name {
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+.iteminfo {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.text_iteminfo {
+    width: 100%;
+    height: 15px;
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.info li {
+    list-style: none;
+    font-size: 14px;
+    margin-top: 15px;
+    height: 21px;
+}
+.left_myinfo li {
+    color: #555;
+}
+
+.footer_myinfo {
+    width: 100%;
+    height: 65px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.footer_myinfo1 {
+    width: 90%;
+    height: 60%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+}
+.update_info {
+    border: none;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    // background-color: rgba(201, 201, 201, 0.39);
+    background-color: var(--primary-color);
+    color: #fff;
+
+    &:hover {
+        background-color: #dbdbdb;
+        cursor: pointer;
+    }
+}
+
+.text_update {
+    font-size: 15px;
+    font-weight: 600;
+}

@@ -14,14 +14,16 @@ import styles from './LeftSide.module.scss';
 import NewFriendsModal from '~/components/NewFriendsModal';
 import { getAllUsers, logout } from '~/redux/apiRequest';
 import Avatar from 'react-avatar';
+import ProfileModal from '~/components/ProfileModal';
 
 const cx = classNames.bind(styles);
 
 function LeftSide({ onClick: handleOpenConversation, state }) {
     const [isMenu, setIsMenu] = useState(false);
     const [isNewFriendsModal, setIsNewFriendsModal] = useState(false);
+    const [isProfileModal, setIsProfileModal] = useState(true);
 
-    const crrentUser = useSelector((state) => state.auth.login?.currentUser);
+    const currentUser = useSelector((state) => state.auth.login?.currentUser);
     const userList = useSelector((state) => state.user.users?.allUsers);
 
     const dispatch = useDispatch();
@@ -39,16 +41,20 @@ function LeftSide({ onClick: handleOpenConversation, state }) {
         setIsNewFriendsModal(!isNewFriendsModal);
     };
 
+    const hanldeShowProfileModal = () => {
+        setIsProfileModal(!isProfileModal);
+    };
+
     const handleLogOut = () => {
-        logout(crrentUser, dispatch);
+        logout(currentUser, dispatch);
     };
 
     useEffect(() => {
-        if (!crrentUser) {
+        if (!currentUser) {
             navigate('/login');
         }
-        if (crrentUser?.accessToken) {
-            getAllUsers(crrentUser?.accessToken, dispatch);
+        if (currentUser?.accessToken) {
+            getAllUsers(currentUser?.accessToken, dispatch);
         }
     }, []);
 
@@ -62,19 +68,19 @@ function LeftSide({ onClick: handleOpenConversation, state }) {
                     render={(attrs) => (
                         <div className={cx('menu')} tabIndex="-1" {...attrs}>
                             <h3 className={cx('user-name')}>
-                                {crrentUser?.fullname}
+                                {currentUser?.fullname}
                             </h3>
 
-                            <Link
-                                to="/profile"
+                            <a
                                 className={cx(
                                     'menu-item',
                                     'separate',
                                     'item-name',
                                 )}
+                                onClick={hanldeShowProfileModal}
                             >
                                 Hồ sơ cá nhân
-                            </Link>
+                            </a>
 
                             <Link
                                 to="/login"
@@ -94,7 +100,7 @@ function LeftSide({ onClick: handleOpenConversation, state }) {
                     <div className={cx('user-img')} onClick={handleShow}>
                         <Avatar
                             className={cx('cover')}
-                            name={crrentUser?.fullname}
+                            name={currentUser?.fullname}
                             size="40"
                         />
                     </div>
@@ -127,7 +133,7 @@ function LeftSide({ onClick: handleOpenConversation, state }) {
             </div>
             <div className={cx('chat-list')}>
                 {userList?.map((user) => {
-                    if (user.id === crrentUser?.id) {
+                    if (user.id === currentUser?.id) {
                         return <Fragment key={user.id} />;
                     } else {
                         return (
@@ -182,6 +188,12 @@ function LeftSide({ onClick: handleOpenConversation, state }) {
 
             {isNewFriendsModal && (
                 <NewFriendsModal onClick={hanldeShowNewFriendsModal} />
+            )}
+            {isProfileModal && (
+                <ProfileModal
+                    onClick={hanldeShowProfileModal}
+                    currentUser={currentUser}
+                />
             )}
         </div>
     );
