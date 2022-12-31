@@ -22,6 +22,7 @@ function LeftSide({ onClick: handleOpenConversation, state }) {
     const [isMenu, setIsMenu] = useState(false);
     const [isNewFriendsModal, setIsNewFriendsModal] = useState(false);
     const [isProfileModal, setIsProfileModal] = useState(false);
+    const [lastMessage, setLastMessage] = useState({});
 
     const currentUser = useSelector((state) => state.auth.login?.currentUser);
     const userList = useSelector((state) => state.user.users?.allUsers);
@@ -59,6 +60,24 @@ function LeftSide({ onClick: handleOpenConversation, state }) {
         }
     }, []);
 
+    useEffect(() => {
+        userList?.map((user) => {
+            state.messages[user.id]?.map((msg) => {
+                if (
+                    (Number(msg.from) === currentUser.id &&
+                        Number(msg.to) === user.id) ||
+                    (Number(msg.from) === user.id &&
+                        Number(msg.to) === currentUser.id)
+                ) {
+                    setLastMessage((prev) => ({
+                        ...prev,
+                        [user.id]: msg,
+                    }));
+                }
+            });
+        });
+    }, [state]);
+    console.log(lastMessage);
     return (
         <div className={cx('leftside')}>
             <div className={cx('header')}>
@@ -156,27 +175,28 @@ function LeftSide({ onClick: handleOpenConversation, state }) {
                                 <div className={cx('details')}>
                                     <div className={cx('listhead')}>
                                         <h4>{user.fullname}</h4>
-                                        <p className={cx('time')}>
-                                            {state.messages[user.id] ? (
-                                                state.messages[user.id][
-                                                    state.messages[user.id]
-                                                        .length - 1
-                                                ].time
-                                            ) : (
-                                                <></>
-                                            )}
-                                        </p>
+
+                                        {/* {state.messages[user.id] ? (
+                                            state.messages[user.id][
+                                                state.messages[user.id].length -
+                                                    1
+                                            ].time
+                                        ) : (
+                                            <></>
+                                        )} */}
+                                        {lastMessage[user.id]?.time}
                                     </div>
                                     <div className={cx('message')}>
                                         <p>
-                                            {state.messages[user.id] ? (
+                                            {/* {state.messages[user.id] ? (
                                                 state.messages[user.id][
                                                     state.messages[user.id]
                                                         .length - 1
                                                 ].message
                                             ) : (
                                                 <></>
-                                            )}
+                                            )} */}
+                                            {lastMessage[user.id]?.message}
                                         </p>
                                         <b>{user.unseen}</b>
                                     </div>
