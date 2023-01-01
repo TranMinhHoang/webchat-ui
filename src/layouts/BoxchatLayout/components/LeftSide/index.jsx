@@ -18,7 +18,7 @@ import ProfileModal from '~/components/ProfileModal';
 
 const cx = classNames.bind(styles);
 
-function LeftSide({ onClick: handleOpenConversation, state }) {
+function LeftSide({ onClick: handleOpenConversation, state, onlineUserList }) {
     const [isMenu, setIsMenu] = useState(false);
     const [isNewFriendsModal, setIsNewFriendsModal] = useState(false);
     const [isProfileModal, setIsProfileModal] = useState(false);
@@ -77,7 +77,7 @@ function LeftSide({ onClick: handleOpenConversation, state }) {
             });
         });
     }, [state]);
-    console.log(lastMessage);
+    console.log(onlineUserList);
     return (
         <div className={cx('leftside')}>
             <div className={cx('header')}>
@@ -155,7 +155,7 @@ function LeftSide({ onClick: handleOpenConversation, state }) {
                 {userList?.map((user) => {
                     if (user.id === currentUser?.id) {
                         return <Fragment key={user.id} />;
-                    } else {
+                    } else if (onlineUserList[user.id]) {
                         return (
                             <div
                                 key={user.id}

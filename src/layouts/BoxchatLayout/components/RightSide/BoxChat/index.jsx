@@ -64,6 +64,7 @@ function BoxChat({ user: userFriend, state, setState }) {
                     time: datetime,
                 }),
             );
+
             setState((prev) => ({ ...prev, typedMessage: '' }));
             inputRef.current.focus();
         } else inputRef.current.focus();
@@ -155,34 +156,7 @@ function BoxChat({ user: userFriend, state, setState }) {
                 <SockJsClient
                     url="http://localhost:8080/websocket-chat/"
                     topics={['/topic/user']}
-                    // onConnect={() => {
-                    //     console.log('connected');
-                    // }}
-                    // onDisconnect={() => {
-                    //     console.log('Disconnected');
-                    // }}
-                    onMessage={(msg) => {
-                        // const id =
-                        //     Number(msg.to) === user.id ? msg.from : msg.to;
-                        // const jobs = state.messages[id] ?? [];
-                        // jobs.push(msg);
-                        // setState((prev) => ({
-                        //     ...prev,
-                        //     messages: {
-                        //         ...state.messages,
-                        //         [id]: jobs,
-                        //     },
-                        // }));
-                        // localStorage.setItem(
-                        //     'messages',
-                        //     JSON.stringify({
-                        //         ...state.messages,
-                        //         [id]: jobs,
-                        //     }),
-                        // );
-                        // scrollToBottom();
-                        // console.log(state);
-                    }}
+                    onMessage={() => {}}
                     ref={clientRef}
                 />
             </div>
