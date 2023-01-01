@@ -1,10 +1,10 @@
 import BoxchatLayout from '~/layouts/BoxchatLayout';
 
-function Boxchat({ onlineUserList, setOnlineUserList, handleDisconnect }) {
+function Boxchat({ listUserOnline, setListUserOnline, handleDisconnect }) {
     return (
         <BoxchatLayout
-            onlineUserList={onlineUserList}
-            setOnlineUserList={setOnlineUserList}
+            listUserOnline={listUserOnline}
+            setListUserOnline={setListUserOnline}
             handleDisconnect={handleDisconnect}
         />
     );

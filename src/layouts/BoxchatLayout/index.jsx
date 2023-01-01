@@ -9,8 +9,8 @@ import RightSide from './components/RightSide';
 const cx = classNames.bind(styles);
 
 function BoxchatLayout({
-    onlineUserList,
-    setOnlineUserList,
+    listUserOnline,
+    setListUserOnline,
     handleDisconnect,
 }) {
     const [user, setUser] = useState({});
@@ -22,13 +22,12 @@ function BoxchatLayout({
         to: '',
         typedMessage: '',
     });
-    // const [onlineUserList, setOnlineUserList] = useState({});
+    // const [listUserOnline, setListUserOnline] = useState({});
 
     const onClick = (item) => {
         setUser(item);
     };
-
-    console.log(onlineUserList);
+    console.log(listUserOnline);
     return (
         <div className={cx('wrapper')}>
             <SockJsClient
@@ -50,18 +49,49 @@ function BoxchatLayout({
                     handleDisconnect(currentUser.id);
                 }}
                 onMessage={(msg) => {
-                    const result = {};
-
-                    for (const item of msg) {
-                        if (!result[item.id]) {
-                            result[item.id] = item.status;
-                        }
-                    }
-
-                    setOnlineUserList((prev) => ({
+                    console.log(msg);
+                    const jobs = listUserOnline[msg.id] ?? [];
+                    jobs.push(msg);
+                    console.log(jobs, 'jobs');
+                    setListUserOnline((prev) => ({
                         ...prev,
-                        ...result,
+                        [msg.id]: jobs,
                     }));
+                    localStorage.setItem(
+                        'userOnline',
+                        JSON.stringify({
+                            ...listUserOnline,
+                            [msg.id]: jobs,
+                        }),
+                    );
+                    // const jobs = state.messages[id] ?? [];
+                    // jobs.push(msg);
+                    // setState((prev) => ({
+                    //     ...prev,
+                    //     messages: {
+                    //         ...state.messages,
+                    //         [id]: jobs,
+                    //     },
+                    // }));
+                    // localStorage.setItem(
+                    //     'messages',
+                    //     JSON.stringify({
+                    //         ...state.messages,
+                    //         [id]: jobs,
+                    //     }),
+                    // );
+                    // const result = {};
+                    // for (const item of msg) {
+                    //     if (!result[item.id]) {
+                    //         result[item.id] = item.status;
+                    //     }
+                    // }
+                    // console.log(msg);
+                    // console.log(msg.slice(-1)[0].id);
+                    // setListUserOnline((prev) => ({
+                    //     ...prev,
+                    //     ...result,
+                    // }));
                 }}
             />
 
@@ -75,7 +105,6 @@ function BoxchatLayout({
                     console.log('Disconnected');
                 }}
                 onMessage={(msg) => {
-                    console.log(msg);
                     const id =
                         Number(msg?.to) === currentUser?.id
                             ? msg?.from
@@ -103,7 +132,7 @@ function BoxchatLayout({
                 <LeftSide
                     onClick={onClick}
                     state={state}
-                    onlineUserList={onlineUserList}
+                    listUserOnline={listUserOnline}
                 />
                 <RightSide user={user} state={state} setState={setState} />
             </div>

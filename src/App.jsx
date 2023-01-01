@@ -6,7 +6,9 @@ import { publicRoutes } from '~/routes';
 import Boxchat from './pages/BoxChat';
 
 function App() {
-    const [onlineUserList, setOnlineUserList] = useState({});
+    const [listUserOnline, setListUserOnline] = useState(
+        JSON.parse(localStorage.getItem('userOnline') || '{}'),
+    );
     const sockRef = useRef();
     const handleDisconnect = (id) => {
         sockRef.current.sendMessage(
@@ -17,7 +19,7 @@ function App() {
             }),
         );
     };
-    console.log(onlineUserList);
+
     return (
         <Router>
             <div className="App">
@@ -27,17 +29,22 @@ function App() {
                     topics={['/topic/userOnline']}
                     onMessage={(msg) => {
                         console.log(msg);
-                        const result = {};
-                        for (const item of msg) {
-                            if (!result[item.id]) {
-                                result[item.id] = item.status;
-                            }
-                        }
 
-                        setOnlineUserList((prev) => ({
-                            ...prev,
-                            ...result,
-                        }));
+                        // const result = {};
+                        // for (const item of msg) {
+                        //     if (!result[item.id]) {
+                        //         result[item.id] = item.status;
+                        //     }
+                        // }
+                        // // console.log(result);
+                        // setListUserOnline((prev) => ({
+                        //     ...prev,
+                        //     ...result,
+                        // }));
+                        // localStorage.setItem(
+                        //     'userOnline',
+                        //     JSON.stringify(listUserOnline),
+                        // );
                     }}
                 />
                 <Routes>
@@ -54,8 +61,8 @@ function App() {
                                 path={route.path}
                                 element={
                                     <Layout
-                                        onlineUserList={onlineUserList}
-                                        setOnlineUserList={setOnlineUserList}
+                                        listUserOnline={listUserOnline}
+                                        setListUserOnline={setListUserOnline}
                                         handleDisconnect={handleDisconnect}
                                     >
                                         <Page />
