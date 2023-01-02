@@ -9,7 +9,6 @@ import {
     registerSuccess,
 } from './authSlice';
 import { getUserFailed, getUsersStart, getUsersSuccess } from './userSlice';
-import { createConversation as _createConversation } from './conversationSlice';
 
 const URL = 'http://localhost:8080';
 

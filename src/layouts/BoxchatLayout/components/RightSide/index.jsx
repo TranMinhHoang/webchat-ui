@@ -4,9 +4,9 @@ import BoxChat from './BoxChat';
 
 const cx = classNames.bind(styles);
 
-function RightSide({ user, state, setState }) {
+function RightSide({ user, state, setState, listUserOnline }) {
     const displayBoxChat = () => {
-        if (Object.keys(user).length !== 0) {
+        if (Object.keys(user).length !== 0 && listUserOnline[user.id]) {
             return <BoxChat user={user} state={state} setState={setState} />;
         } else {
             return (

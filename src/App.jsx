@@ -6,9 +6,7 @@ import { publicRoutes } from '~/routes';
 import Boxchat from './pages/BoxChat';
 
 function App() {
-    const [listUserOnline, setListUserOnline] = useState(
-        JSON.parse(localStorage.getItem('userOnline') || '{}'),
-    );
+    const [listUserOnline, setListUserOnline] = useState({});
     const sockRef = useRef();
     const handleDisconnect = (id) => {
         sockRef.current.sendMessage(
@@ -27,25 +25,7 @@ function App() {
                     ref={sockRef}
                     url="http://localhost:8080/websocket-chat/"
                     topics={['/topic/userOnline']}
-                    onMessage={(msg) => {
-                        console.log(msg);
-
-                        // const result = {};
-                        // for (const item of msg) {
-                        //     if (!result[item.id]) {
-                        //         result[item.id] = item.status;
-                        //     }
-                        // }
-                        // // console.log(result);
-                        // setListUserOnline((prev) => ({
-                        //     ...prev,
-                        //     ...result,
-                        // }));
-                        // localStorage.setItem(
-                        //     'userOnline',
-                        //     JSON.stringify(listUserOnline),
-                        // );
-                    }}
+                    onMessage={() => {}}
                 />
                 <Routes>
                     {publicRoutes.map((route, index) => {

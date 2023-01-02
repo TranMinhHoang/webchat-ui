@@ -18,7 +18,12 @@ import ProfileModal from '~/components/ProfileModal';
 
 const cx = classNames.bind(styles);
 
-function LeftSide({ onClick: handleOpenConversation, state, listUserOnline }) {
+function LeftSide({
+    onClick: handleOpenConversation,
+    state,
+    listUserOnline,
+    activeLink,
+}) {
     const [isMenu, setIsMenu] = useState(false);
     const [isNewFriendsModal, setIsNewFriendsModal] = useState(false);
     const [isProfileModal, setIsProfileModal] = useState(false);
@@ -64,10 +69,10 @@ function LeftSide({ onClick: handleOpenConversation, state, listUserOnline }) {
         userList?.map((user) => {
             state.messages[user.id]?.map((msg) => {
                 if (
-                    (Number(msg.from) === currentUser.id &&
+                    (Number(msg.from) === currentUser?.id &&
                         Number(msg.to) === user.id) ||
                     (Number(msg.from) === user.id &&
-                        Number(msg.to) === currentUser.id)
+                        Number(msg.to) === currentUser?.id)
                 ) {
                     setLastMessage((prev) => ({
                         ...prev,
@@ -155,12 +160,15 @@ function LeftSide({ onClick: handleOpenConversation, state, listUserOnline }) {
                 {userList?.map((user) => {
                     if (user.id === currentUser?.id) {
                         return <Fragment key={user.id} />;
-                    } else if (listUserOnline[user.id]) {
+                    } else if (listUserOnline[user.id]?.status) {
                         return (
                             <div
                                 key={user.id}
                                 className={cx(
                                     'conversation',
+                                    activeLink.activeLink === user.id
+                                        ? 'active'
+                                        : null,
                                     user.unseen && 'unseen',
                                 )}
                                 onClick={() => handleOpenConversation(user)}

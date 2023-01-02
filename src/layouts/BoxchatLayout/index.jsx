@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import SockJsClient from 'react-stomp';
 
@@ -22,12 +22,36 @@ function BoxchatLayout({
         to: '',
         typedMessage: '',
     });
-    // const [listUserOnline, setListUserOnline] = useState({});
+    const [activeLink, setActiveLink] = useState(null);
 
     const onClick = (item) => {
         setUser(item);
+        setActiveLink({
+            activeLink: item.id,
+        });
     };
+    console.log(activeLink);
+    useEffect(() => {
+        const handleTabClose = (e) => {
+            e.preventDefault();
+            sockRef.current?.sendMessage(
+                '/app/user-online',
+                JSON.stringify({
+                    id: currentUser.id,
+                    status: false,
+                }),
+            );
+            console.log('close');
+        };
+
+        window.addEventListener('beforeunload', handleTabClose);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleTabClose);
+        };
+    }, []);
     console.log(listUserOnline);
+
     return (
         <div className={cx('wrapper')}>
             <SockJsClient
@@ -35,7 +59,7 @@ function BoxchatLayout({
                 topics={['/topic/userOnline']}
                 ref={sockRef}
                 onConnect={() => {
-                    sockRef.current.sendMessage(
+                    sockRef.current?.sendMessage(
                         '/app/user-online',
                         JSON.stringify({
                             id: currentUser.id,
@@ -49,49 +73,12 @@ function BoxchatLayout({
                     handleDisconnect(currentUser.id);
                 }}
                 onMessage={(msg) => {
-                    console.log(msg);
-                    const jobs = listUserOnline[msg.id] ?? [];
-                    jobs.push(msg);
-                    console.log(jobs, 'jobs');
-                    setListUserOnline((prev) => ({
-                        ...prev,
-                        [msg.id]: jobs,
-                    }));
-                    localStorage.setItem(
-                        'userOnline',
-                        JSON.stringify({
-                            ...listUserOnline,
-                            [msg.id]: jobs,
-                        }),
-                    );
-                    // const jobs = state.messages[id] ?? [];
-                    // jobs.push(msg);
-                    // setState((prev) => ({
-                    //     ...prev,
-                    //     messages: {
-                    //         ...state.messages,
-                    //         [id]: jobs,
-                    //     },
-                    // }));
-                    // localStorage.setItem(
-                    //     'messages',
-                    //     JSON.stringify({
-                    //         ...state.messages,
-                    //         [id]: jobs,
-                    //     }),
-                    // );
-                    // const result = {};
-                    // for (const item of msg) {
-                    //     if (!result[item.id]) {
-                    //         result[item.id] = item.status;
-                    //     }
-                    // }
                     // console.log(msg);
-                    // console.log(msg.slice(-1)[0].id);
-                    // setListUserOnline((prev) => ({
-                    //     ...prev,
-                    //     ...result,
-                    // }));
+                    const result = {};
+                    for (const item of msg) {
+                        result[item.id] = item;
+                    }
+                    setListUserOnline(result);
                 }}
             />
 
@@ -133,8 +120,14 @@ function BoxchatLayout({
                     onClick={onClick}
                     state={state}
                     listUserOnline={listUserOnline}
+                    activeLink={activeLink}
                 />
-                <RightSide user={user} state={state} setState={setState} />
+                <RightSide
+                    user={user}
+                    state={state}
+                    setState={setState}
+                    listUserOnline={listUserOnline}
+                />
             </div>
         </div>
     );
