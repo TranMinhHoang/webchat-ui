@@ -6,8 +6,15 @@ const cx = classNames.bind(styles);
 
 function RightSide({ user, state, setState, listUserOnline }) {
     const displayBoxChat = () => {
-        if (Object.keys(user).length !== 0 && listUserOnline[user.id]) {
-            return <BoxChat user={user} state={state} setState={setState} />;
+        if (Object.keys(user).length !== 0) {
+            return (
+                <BoxChat
+                    user={user}
+                    state={state}
+                    setState={setState}
+                    listUserOnline={listUserOnline}
+                />
+            );
         } else {
             return (
                 <div className={cx('container')}>
@@ -16,7 +23,7 @@ function RightSide({ user, state, setState, listUserOnline }) {
                             Chào mừng đến với Web Chat!
                         </h1>
                         <p className={cx('text')}>
-                            Hãy chọn một người bạn muốn trò chuyện.
+                            Hãy chọn một người online mà bạn muốn trò chuyện.
                         </p>
                     </div>
                 </div>

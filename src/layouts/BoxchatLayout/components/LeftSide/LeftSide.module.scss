@@ -130,10 +130,24 @@
 }
 
 .chat-list {
+    padding-top: 10px;
     position: relative;
     height: var(--height-chat_list);
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+.title {
+    width: 100%;
+    // border-bottom: 1px solid rgba(199, 196, 196, 0.5);
+    border-top: 1px solid rgba(199, 196, 196, 0.5);
+}
+
+.text {
+    opacity: 0.6;
+    padding-left: 10px;
+    text-decoration: underline;
+    font-size: 1.4rem;
 }
 
 // conversation
@@ -189,6 +203,23 @@
     border-radius: 50%;
     cursor: pointer;
     margin-right: 8px;
+}
+
+.status {
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top: 42px;
+    left: 43px;
+    border-radius: 50%;
+}
+
+.online {
+    background-color: var(--primary-color);
+}
+
+.offline {
+    background-color: red;
 }
 
 .details {

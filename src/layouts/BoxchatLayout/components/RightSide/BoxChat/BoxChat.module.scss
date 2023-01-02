@@ -8,12 +8,17 @@
         font-weight: 500;
         line-height: 1.8rem;
         margin-left: 15px;
-
-        span {
-            font-size: 1.4rem;
-            color: var(--primary-color);
-        }
     }
+}
+
+.online {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+}
+
+.offline {
+    font-size: 1.4rem;
+    color: red;
 }
 
 .nav-icon {

@@ -9,7 +9,7 @@ function App() {
     const [listUserOnline, setListUserOnline] = useState({});
     const sockRef = useRef();
     const handleDisconnect = (id) => {
-        sockRef.current.sendMessage(
+        sockRef.current?.sendMessage(
             '/app/user-online',
             JSON.stringify({
                 id: id,

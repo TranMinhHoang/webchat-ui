@@ -157,6 +157,10 @@ function LeftSide({
                 </div>
             </div>
             <div className={cx('chat-list')}>
+                {/* online */}
+                <div className={cx('title')}>
+                    <p className={cx('text')}>Online</p>
+                </div>
                 {userList?.map((user) => {
                     if (user.id === currentUser?.id) {
                         return <Fragment key={user.id} />;
@@ -166,7 +170,7 @@ function LeftSide({
                                 key={user.id}
                                 className={cx(
                                     'conversation',
-                                    activeLink.activeLink === user.id
+                                    activeLink?.activeLink === user.id
                                         ? 'active'
                                         : null,
                                     user.unseen && 'unseen',
@@ -180,6 +184,7 @@ function LeftSide({
                                         size="40"
                                     />
                                 </div>
+                                <div className={cx('status', 'online')}></div>
                                 <div className={cx('details')}>
                                     <div className={cx('listhead')}>
                                         <h4>{user.fullname}</h4>
@@ -192,6 +197,60 @@ function LeftSide({
                                         ) : (
                                             <></>
                                         )} */}
+                                        {lastMessage[user.id]?.time}
+                                    </div>
+                                    <div className={cx('message')}>
+                                        <p>
+                                            {/* {state.messages[user.id] ? (
+                                                state.messages[user.id][
+                                                    state.messages[user.id]
+                                                        .length - 1
+                                                ].message
+                                            ) : (
+                                                <></>
+                                            )} */}
+                                            {lastMessage[user.id]?.message}
+                                        </p>
+                                        <b>{user.unseen}</b>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    }
+                })}
+
+                {/* offline */}
+                <div className={cx('title')}>
+                    <p className={cx('text')}>Offline</p>
+                </div>
+                {userList?.map((user) => {
+                    if (user.id === currentUser?.id) {
+                        return <Fragment key={user.id} />;
+                    } else if (!listUserOnline[user.id]?.status) {
+                        return (
+                            <div
+                                key={user.id}
+                                className={cx(
+                                    'conversation',
+                                    activeLink?.activeLink === user.id
+                                        ? 'active'
+                                        : null,
+                                    user.unseen && 'unseen',
+                                )}
+                                onClick={() => handleOpenConversation(user)}
+                            >
+                                <div className={cx('imgbx')}>
+                                    <Avatar
+                                        className={cx('cover')}
+                                        name={user.fullname}
+                                        size="40"
+                                    />
+                                </div>
+                                <div className={cx('status', 'offline')}></div>
+                                <div className={cx('details')}>
+                                    <div className={cx('listhead')}>
+                                        <h4>{user.fullname}</h4>
+
                                         {lastMessage[user.id]?.time}
                                     </div>
                                     <div className={cx('message')}>

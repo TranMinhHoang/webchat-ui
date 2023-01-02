@@ -16,27 +16,17 @@ import Avatar from 'react-avatar';
 
 const cx = classNames.bind(styles);
 
-function BoxChat({ user: userFriend, state, setState }) {
-    // const messages = useSelector((state) => state.conversation.conversations);
-    // const count = useSelector((state) => state.conversation.count);
+function BoxChat({ user: userFriend, state, setState, listUserOnline }) {
     var currentdate = new Date();
     var datetime =
         ('0' + currentdate.getHours()).slice(-2) +
         ':' +
         ('0' + currentdate.getMinutes()).slice(-2);
-    // const [state, setState] = useState({
-    //     messages: JSON.parse(localStorage.getItem('messages') || '{}'),
-    //     from: '',
-    //     to: '',
-    //     typedMessage: '',
-    // });
 
     const messageEndRef = useRef();
     const clientRef = useRef();
     const inputRef = useRef();
     const user = useSelector((state) => state.auth.login?.currentUser);
-
-    // const userList = useSelector((state) => state.user.users?.allUsers);
 
     const scrollToBottom = () => {
         messageEndRef.current.scrollIntoView({
@@ -139,7 +129,15 @@ function BoxChat({ user: userFriend, state, setState }) {
                         />
                     </div>
 
-                    <h4>{userFriend.fullname}</h4>
+                    <h4>
+                        {userFriend.fullname}
+                        <br />
+                        {listUserOnline[userFriend.id]?.status ? (
+                            <span className={cx('online')}>Online</span>
+                        ) : (
+                            <span className={cx('offline')}>Offline</span>
+                        )}
+                    </h4>
                 </div>
                 <ul className={cx('nav-icon')}>
                     <li>
