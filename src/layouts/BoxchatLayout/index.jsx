@@ -30,7 +30,7 @@ function BoxchatLayout({
             activeLink: item.id,
         });
     };
-    console.log(activeLink);
+
     useEffect(() => {
         const handleTabClose = (e) => {
             e.preventDefault();
@@ -50,7 +50,6 @@ function BoxchatLayout({
             window.removeEventListener('beforeunload', handleTabClose);
         };
     }, []);
-    console.log(listUserOnline);
 
     return (
         <div className={cx('wrapper')}>
@@ -66,7 +65,6 @@ function BoxchatLayout({
                             status: true,
                         }),
                     );
-                    console.log('connected', 'userOnline');
                 }}
                 onDisconnect={() => {
                     console.log('Disconnected');
@@ -85,12 +83,8 @@ function BoxchatLayout({
             <SockJsClient
                 url="http://localhost:8080/websocket-chat/"
                 topics={['/topic/user']}
-                onConnect={() => {
-                    console.log('connected');
-                }}
-                onDisconnect={() => {
-                    console.log('Disconnected');
-                }}
+                onConnect={() => {}}
+                onDisconnect={() => {}}
                 onMessage={(msg) => {
                     const id =
                         Number(msg?.to) === currentUser?.id

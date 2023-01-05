@@ -189,28 +189,10 @@ function LeftSide({
                                     <div className={cx('listhead')}>
                                         <h4>{user.fullname}</h4>
 
-                                        {/* {state.messages[user.id] ? (
-                                            state.messages[user.id][
-                                                state.messages[user.id].length -
-                                                    1
-                                            ].time
-                                        ) : (
-                                            <></>
-                                        )} */}
-                                        {lastMessage[user.id]?.time}
+                                        {lastMessage[user.id]?.time.slice(-5)}
                                     </div>
                                     <div className={cx('message')}>
-                                        <p>
-                                            {/* {state.messages[user.id] ? (
-                                                state.messages[user.id][
-                                                    state.messages[user.id]
-                                                        .length - 1
-                                                ].message
-                                            ) : (
-                                                <></>
-                                            )} */}
-                                            {lastMessage[user.id]?.message}
-                                        </p>
+                                        <p>{lastMessage[user.id]?.message}</p>
                                         <b>{user.unseen}</b>
                                     </div>
                                 </div>
@@ -251,7 +233,7 @@ function LeftSide({
                                     <div className={cx('listhead')}>
                                         <h4>{user.fullname}</h4>
 
-                                        {lastMessage[user.id]?.time}
+                                        {lastMessage[user.id]?.time.slice(-5)}
                                     </div>
                                     <div className={cx('message')}>
                                         <p>

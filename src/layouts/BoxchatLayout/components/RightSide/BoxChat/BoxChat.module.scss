@@ -37,13 +37,14 @@
     position: relative; /*tương đối*/
     width: 100%;
     height: calc(100% - 120px);
-    padding: 50px;
-    overflow-y: auto;
+    // padding: 50px;
+    // overflow-y: auto;
 }
 .message {
     position: relative;
     display: flex;
     width: 100%;
+    height: 100%;
     margin: 5px 0;
 
     div {
@@ -101,8 +102,8 @@
             height: 10px;
             background: linear-gradient(
                 225deg,
-                #f8f8f8 50%,
-                #f8f8f8 50%,
+                #fff 50%,
+                #fff 50%,
                 transparent 50%,
                 transparent
             );
@@ -110,7 +111,7 @@
     }
 }
 
-.chatbox_input {
+.footer {
     position: relative;
     width: 100%;
     height: 60px;
@@ -118,24 +119,93 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
 
-    input {
-        position: relative;
-        width: 90%;
-        margin: 0 20px;
-        padding: 10px 20px;
-        border: none;
-        outline: none;
-        border-radius: 30px;
-        font-size: 1em;
+.wrapper_input-imgs {
+    width: 100%;
+    background-color: #f0f0f0;
+}
+
+.list-imgs {
+    width: 90%;
+    height: 70px;
+    padding: 10px;
+    margin: 0 20px;
+    display: flex;
+    background: #fff;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+
+.wrapper_add-img {
+    width: 48px;
+    height: 48px;
+    margin-left: 10px;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        background: #dbdbdb;
+        cursor: pointer;
     }
+}
+
+.add-img {
+    color: var(--primary-color);
+    font-size: 2.6rem;
+}
+
+.img-item {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    margin-left: 10px;
+    border-radius: 8px;
+}
+
+.wrapper_delete-img {
+    position: absolute;
+    background-color: #f0f0f0;
+    width: 18px;
+    height: 18px;
+    top: -8px;
+    right: -8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        background: #dbdbdb;
+        cursor: pointer;
+    }
+}
+
+.delete-img {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+.text-input {
+    position: relative;
+    width: 90%;
+    margin: 0 20px;
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    border-radius: 30px;
+    font-size: 1.6rem;
 }
 
 .icon {
     padding: 0 8px;
     cursor: pointer;
     font-size: 2rem;
-    color: #515855;
+    // color: #515855;
+    color: var(--primary-color);
 
     &:nth-child(1) {
         margin-left: 10px;
@@ -147,4 +217,5 @@
     height: 24px;
     width: 24px;
     cursor: pointer;
+    fill: var(--primary-color);
 }

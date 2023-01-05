@@ -4,21 +4,43 @@ import classNames from 'classnames/bind';
 import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+    faClose,
     faEllipsisVertical,
     faFaceSmile,
     faImage,
     faSearch,
 } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
-
-import styles from './BoxChat.module.scss';
+import data from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
 import Avatar from 'react-avatar';
+import HeadlessTippy from '@tippyjs/react/headless';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+import styles from './BoxChat.module.scss';
+import { faSquarePlus } from '@fortawesome/free-regular-svg-icons';
 
 const cx = classNames.bind(styles);
+
+const handleFileChosen = (file) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            // const data = reader.result;
+            resolve(reader.result);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+};
 
 function BoxChat({ user: userFriend, state, setState, listUserOnline }) {
     var currentdate = new Date();
     var datetime =
+        ('0' + currentdate.getDate()).slice(-2) +
+        '/' +
+        ('0' + (currentdate.getMonth() + 1)).slice(-2) +
+        ' ' +
         ('0' + currentdate.getHours()).slice(-2) +
         ':' +
         ('0' + currentdate.getMinutes()).slice(-2);
@@ -26,7 +48,11 @@ function BoxChat({ user: userFriend, state, setState, listUserOnline }) {
     const messageEndRef = useRef();
     const clientRef = useRef();
     const inputRef = useRef();
+    const inputImageRef = useRef();
+    const imageRef = useRef();
     const user = useSelector((state) => state.auth.login?.currentUser);
+    const [isEmojiBox, setIsEmojiBox] = useState(false);
+    const [images, setImages] = useState([]);
 
     const scrollToBottom = () => {
         messageEndRef.current.scrollIntoView({
@@ -34,14 +60,6 @@ function BoxChat({ user: userFriend, state, setState, listUserOnline }) {
             behavior: 'smooth',
         });
     };
-
-    useEffect(() => {
-        setState((prev) => ({
-            ...prev,
-            from: user?.id,
-            to: userFriend.id,
-        }));
-    }, [userFriend]);
 
     const sendMessage = () => {
         if (inputRef.current.value !== '') {
@@ -72,21 +90,56 @@ function BoxChat({ user: userFriend, state, setState, listUserOnline }) {
             typedMessage: e.target.value,
         }));
     };
+
+    const handleSelectEmoji = (e) => {
+        setState((prev) => ({
+            ...prev,
+            typedMessage: state.typedMessage + e.native,
+        }));
+        inputRef.current.focus();
+    };
+
+    const handleEmojiBox = () => {
+        setIsEmojiBox(!isEmojiBox);
+    };
+
     const displayMessages = () => {
         return (
-            <div style={{ height: '100%' }}>
+            <div
+                style={{
+                    height: '100%',
+                    width: '100%',
+                    display: 'flex',
+                    overflowY: 'scroll',
+                    flexDirection: 'column',
+                    padding: '50px 50px 20px 50px',
+                }}
+            >
                 {!!Object.keys(state.messages).length &&
                     state?.messages?.[userFriend.id]?.map((msg, index) => {
                         return (
-                            <div key={index}>
+                            <div key={index} style={{ marginBottom: '6px' }}>
                                 {Number(state.from) === Number(msg.from) ? (
                                     <div
                                         className={cx('message', 'my_message')}
                                     >
-                                        <div>
-                                            <p>{msg.message}</p>
-                                            <span>{msg.time}</span>
-                                        </div>
+                                        <Tippy
+                                            content={
+                                                <span
+                                                    style={{
+                                                        fontSize: '1.2rem',
+                                                    }}
+                                                >
+                                                    {msg.time}
+                                                </span>
+                                            }
+                                            placement="left"
+                                            delay={[300, 0]}
+                                        >
+                                            <div>
+                                                <p>{msg.message}</p>
+                                            </div>
+                                        </Tippy>
                                     </div>
                                 ) : (
                                     <>
@@ -97,10 +150,24 @@ function BoxChat({ user: userFriend, state, setState, listUserOnline }) {
                                                     'frnd_message',
                                                 )}
                                             >
-                                                <div>
-                                                    <p>{msg.message}</p>
-                                                    <span>{msg.time}</span>
-                                                </div>
+                                                <Tippy
+                                                    content={
+                                                        <span
+                                                            style={{
+                                                                fontSize:
+                                                                    '1.2rem',
+                                                            }}
+                                                        >
+                                                            {msg.time}
+                                                        </span>
+                                                    }
+                                                    placement="right"
+                                                    delay={[300, 0]}
+                                                >
+                                                    <div>
+                                                        <p>{msg.message}</p>
+                                                    </div>
+                                                </Tippy>
                                             </div>
                                         )}
                                     </>
@@ -114,8 +181,22 @@ function BoxChat({ user: userFriend, state, setState, listUserOnline }) {
     };
 
     useEffect(() => {
+        // if (
+        //     state?.messages?.[userFriend.id]?.length !==
+        //     JSON.parse(localStorage.getItem('messages'))?.[userFriend.id]
+        //         ?.length
+        // ) {
         scrollToBottom();
-    });
+        // }
+    }, [state?.messages?.[userFriend.id]?.length]);
+
+    useEffect(() => {
+        setState((prev) => ({
+            ...prev,
+            from: user?.id,
+            to: userFriend.id,
+        }));
+    }, [userFriend]);
 
     return (
         <>
@@ -141,14 +222,25 @@ function BoxChat({ user: userFriend, state, setState, listUserOnline }) {
                 </div>
                 <ul className={cx('nav-icon')}>
                     <li>
-                        <FontAwesomeIcon icon={faSearch} />
+                        <FontAwesomeIcon
+                            className={cx('icon')}
+                            icon={faSearch}
+                        />
                     </li>
                     <li>
-                        <FontAwesomeIcon icon={faEllipsisVertical} />
+                        <FontAwesomeIcon
+                            className={cx('icon')}
+                            icon={faEllipsisVertical}
+                        />
                     </li>
                 </ul>
             </div>
-            <div className={cx('chatbox')}>
+            <div
+                className={cx('chatbox')}
+                style={
+                    images.length > 0 ? { height: 'calc(100% - 190px)' } : {}
+                }
+            >
                 {displayMessages()}
 
                 <SockJsClient
@@ -159,18 +251,151 @@ function BoxChat({ user: userFriend, state, setState, listUserOnline }) {
                 />
             </div>
 
-            <div className={cx('chatbox_input')}>
-                <FontAwesomeIcon className={cx('icon')} icon={faFaceSmile} />
-                <FontAwesomeIcon className={cx('icon')} icon={faImage} />
+            <div
+                className={cx('footer')}
+                style={
+                    images.length > 0
+                        ? {
+                              height: '130px',
+                              padding: '10px 0',
+                              alignItems: 'end',
+                          }
+                        : {}
+                }
+            >
+                <HeadlessTippy
+                    interactive
+                    visible={isEmojiBox}
+                    placement="top-start"
+                    render={(attrs) => (
+                        <div tabIndex="-1" {...attrs}>
+                            <Picker
+                                data={data}
+                                onEmojiSelect={handleSelectEmoji}
+                            />
+                        </div>
+                    )}
+                    onClickOutside={handleEmojiBox}
+                >
+                    <div onClick={handleEmojiBox}>
+                        <FontAwesomeIcon
+                            className={cx('icon')}
+                            icon={faFaceSmile}
+                        />
+                    </div>
+                </HeadlessTippy>
+
+                {/* input file */}
                 <input
-                    ref={inputRef}
-                    value={state.typedMessage}
-                    type="text"
-                    placeholder="Soạn tin nhắn"
-                    onChange={handleChangeInput}
-                    onKeyDown={handleKeyDown}
+                    ref={inputImageRef}
+                    type="file"
+                    style={{ display: 'none' }}
+                    multiple
+                    accept="image/*"
+                    onChange={async (event) => {
+                        const files = [...event.target.files];
+                        const results = await Promise.all(
+                            Array.from(files, async (file) => {
+                                const fileContents = await handleFileChosen(
+                                    file,
+                                );
+                                let result = {
+                                    id: crypto.randomUUID(),
+                                    url: fileContents,
+                                    name: file.name,
+                                    size: file.size,
+                                    type: file.type,
+                                    createdAt: new Date(),
+                                };
+
+                                return result;
+                            }),
+                        );
+                        const newImages = [...images];
+                        results.forEach((result) => {
+                            newImages.push(result);
+                        });
+                        setImages(newImages);
+                    }}
                 />
-                {/* <img src={images.send} className={cx('icon', 'send')} alt="" /> */}
+
+                <div
+                    onClick={() => {
+                        inputImageRef?.current?.click();
+                    }}
+                >
+                    <FontAwesomeIcon className={cx('icon')} icon={faImage} />
+                </div>
+
+                {/* list-img */}
+                {images.length > 0 ? (
+                    <div className={cx('wrapper_input-imgs')}>
+                        <div className={cx('list-imgs')}>
+                            <div
+                                className={cx('wrapper_add-img')}
+                                onClick={() => {
+                                    inputImageRef?.current?.click();
+                                }}
+                            >
+                                <FontAwesomeIcon
+                                    className={cx('add-img')}
+                                    icon={faSquarePlus}
+                                />
+                            </div>
+                            {images?.map((img, index) => (
+                                <div
+                                    key={index}
+                                    style={{ position: 'relative' }}
+                                >
+                                    <img
+                                        ref={imageRef}
+                                        className={cx('img-item')}
+                                        src={img.url}
+                                        alt=""
+                                    />
+                                    <div
+                                        className={cx('wrapper_delete-img')}
+                                        onClick={() => {
+                                            const newImages = images.filter(
+                                                (image) => img.id !== image.id,
+                                            );
+                                            setImages(newImages);
+                                        }}
+                                    >
+                                        <FontAwesomeIcon
+                                            className={cx('delete-img')}
+                                            icon={faClose}
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        <input
+                            className={cx('text-input')}
+                            style={{
+                                borderTopLeftRadius: '0',
+                                borderTopRightRadius: '0',
+                            }}
+                            ref={inputRef}
+                            value={state.typedMessage}
+                            type="text"
+                            placeholder="Soạn tin nhắn"
+                            onChange={handleChangeInput}
+                            onKeyDown={handleKeyDown}
+                        />
+                    </div>
+                ) : (
+                    <input
+                        className={cx('text-input')}
+                        ref={inputRef}
+                        value={state.typedMessage}
+                        type="text"
+                        placeholder="Soạn tin nhắn"
+                        onChange={handleChangeInput}
+                        onKeyDown={handleKeyDown}
+                    />
+                )}
+
                 <svg
                     className={cx('send')}
                     viewBox="0 0 24 30"
