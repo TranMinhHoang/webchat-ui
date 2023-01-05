@@ -4,7 +4,14 @@ import BoxChat from './BoxChat';
 
 const cx = classNames.bind(styles);
 
-function RightSide({ user, state, setState, listUserOnline }) {
+function RightSide({
+    user,
+    state,
+    setState,
+    listUserOnline,
+    listImages,
+    setListImages,
+}) {
     const displayBoxChat = () => {
         if (Object.keys(user).length !== 0) {
             return (
@@ -13,6 +20,8 @@ function RightSide({ user, state, setState, listUserOnline }) {
                     state={state}
                     setState={setState}
                     listUserOnline={listUserOnline}
+                    listImages={listImages}
+                    setListImages={setListImages}
                 />
             );
         } else {
