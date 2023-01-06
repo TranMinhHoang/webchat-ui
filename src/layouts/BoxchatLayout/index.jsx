@@ -44,7 +44,6 @@ function BoxchatLayout({
           status: false,
         }),
       );
-      console.log('close');
     };
 
     window.addEventListener('beforeunload', handleTabClose);
@@ -74,7 +73,6 @@ function BoxchatLayout({
           handleDisconnect(currentUser.id);
         }}
         onMessage={(msg) => {
-          // console.log(msg);
           const result = {};
           for (const item of msg) {
             result[item.id] = item;

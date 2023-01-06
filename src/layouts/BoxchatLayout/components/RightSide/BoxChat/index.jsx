@@ -110,7 +110,7 @@ function BoxChat({
   const handleEmojiBox = () => {
     setIsEmojiBox(!isEmojiBox);
   };
-  console.log(state);
+
   const displayMessages = () => {
     return (
       <div
@@ -155,6 +155,7 @@ function BoxChat({
                           {msg.images?.map((img) => {
                             return (
                               <img
+                                key={img.id}
                                 className={cx('message-img')}
                                 src={img.url}
                                 alt=""
@@ -190,6 +191,7 @@ function BoxChat({
                               {msg.images?.map((img) => {
                                 return (
                                   <img
+                                    key={img.id}
                                     className={cx('message-img')}
                                     src={img.url}
                                     alt=""

@@ -69,6 +69,10 @@
 .my_message {
   justify-content: flex-end;
 
+  .message-content {
+    align-items: flex-end;
+  }
+
   .message-text {
     &::before {
       content: '';
@@ -107,6 +111,13 @@
 
 .frnd_message {
   justify-content: flex-start;
+
+  .message-content {
+    max-width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
   .message-text {
     background: #fff;

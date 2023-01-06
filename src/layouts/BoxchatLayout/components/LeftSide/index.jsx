@@ -100,6 +100,8 @@ function LeftSide({
                 Hồ sơ cá nhân
               </a>
 
+              <a className={cx('menu-item', 'item-name')}>Đổi mật khẩu</a>
+
               <Link
                 to="/login"
                 className={cx('menu-item', 'separate', 'item-name')}
@@ -176,12 +178,14 @@ function LeftSide({
                     {lastMessage[user.id]?.time.slice(-5)}
                   </div>
                   <div className={cx('message')}>
-                    {lastMessage[user.id]?.message !== '' && (
-                      <p>{lastMessage[user.id]?.message}</p>
-                    )}
-                    {lastMessage[user.id]?.message == '' &&
-                      lastMessage[user.id]?.images !== null && <p>[Ảnh]</p>}
-                    <b>{user.unseen}</b>
+                    {lastMessage[user.id]?.message !== '' &&
+                      lastMessage[user.id]?.images?.length === 0 && (
+                        <p>{lastMessage[user.id]?.message}</p>
+                      )}
+                    {lastMessage[user.id]?.message === '' &&
+                      lastMessage[user.id]?.images.length > 0 && <p>[Ảnh]</p>}
+                    {lastMessage[user.id]?.message !== '' &&
+                      lastMessage[user.id]?.images?.length > 0 && <p>[Ảnh]</p>}
                   </div>
                 </div>
               </div>
@@ -222,12 +226,14 @@ function LeftSide({
                     {lastMessage[user.id]?.time.slice(-5)}
                   </div>
                   <div className={cx('message')}>
-                    {lastMessage[user.id]?.message !== '' && (
-                      <p>{lastMessage[user.id]?.message}</p>
-                    )}
-                    {lastMessage[user.id]?.message == '' &&
-                      lastMessage[user.id]?.images !== null && <p>[Ảnh]</p>}
-                    <b>{user.unseen}</b>
+                    {lastMessage[user.id]?.message !== '' &&
+                      lastMessage[user.id]?.images?.length === 0 && (
+                        <p>{lastMessage[user.id]?.message}</p>
+                      )}
+                    {lastMessage[user.id]?.message === '' &&
+                      lastMessage[user.id]?.images.length > 0 && <p>[Ảnh]</p>}
+                    {lastMessage[user.id]?.message !== '' &&
+                      lastMessage[user.id]?.images?.length > 0 && <p>[Ảnh]</p>}
                   </div>
                 </div>
               </div>
