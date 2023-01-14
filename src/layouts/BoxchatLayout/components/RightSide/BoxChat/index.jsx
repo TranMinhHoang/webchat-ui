@@ -289,21 +289,23 @@ function BoxChat({
             : {}
         }
       >
-        <HeadlessTippy
-          interactive
-          visible={isEmojiBox}
-          placement="top-start"
-          render={(attrs) => (
-            <div tabIndex="-1" {...attrs}>
-              <Picker data={data} onEmojiSelect={handleSelectEmoji} />
+        <div>
+          <HeadlessTippy
+            interactive
+            visible={isEmojiBox}
+            placement="top-start"
+            render={(attrs) => (
+              <div tabIndex="-1" {...attrs}>
+                <Picker data={data} onEmojiSelect={handleSelectEmoji} />
+              </div>
+            )}
+            onClickOutside={handleEmojiBox}
+          >
+            <div onClick={handleEmojiBox}>
+              <FontAwesomeIcon className={cx('icon')} icon={faFaceSmile} />
             </div>
-          )}
-          onClickOutside={handleEmojiBox}
-        >
-          <div onClick={handleEmojiBox}>
-            <FontAwesomeIcon className={cx('icon')} icon={faFaceSmile} />
-          </div>
-        </HeadlessTippy>
+          </HeadlessTippy>
+        </div>
 
         {/* input file */}
         <input

@@ -85,42 +85,44 @@ function LeftSide({
   return (
     <div className={cx('leftside')}>
       <div className={cx('header')}>
-        <Tippy
-          interactive
-          visible={isMenu}
-          placement="right-start"
-          render={(attrs) => (
-            <div className={cx('menu')} tabIndex="-1" {...attrs}>
-              <h3 className={cx('user-name')}>{currentUser?.fullname}</h3>
+        <div>
+          <Tippy
+            interactive
+            visible={isMenu}
+            placement="right-start"
+            render={(attrs) => (
+              <div className={cx('menu')} tabIndex="-1" {...attrs}>
+                <h3 className={cx('user-name')}>{currentUser?.fullname}</h3>
 
-              <a
-                className={cx('menu-item', 'separate', 'item-name')}
-                onClick={hanldeShowProfileModal}
-              >
-                Hồ sơ cá nhân
-              </a>
+                <a
+                  className={cx('menu-item', 'separate', 'item-name')}
+                  onClick={hanldeShowProfileModal}
+                >
+                  Hồ sơ cá nhân
+                </a>
 
-              <a className={cx('menu-item', 'item-name')}>Đổi mật khẩu</a>
+                <a className={cx('menu-item', 'item-name')}>Đổi mật khẩu</a>
 
-              <Link
-                to="/login"
-                className={cx('menu-item', 'separate', 'item-name')}
-                onClick={handleLogOut}
-              >
-                Đăng xuất
-              </Link>
+                <Link
+                  to="/login"
+                  className={cx('menu-item', 'separate', 'item-name')}
+                  onClick={handleLogOut}
+                >
+                  Đăng xuất
+                </Link>
+              </div>
+            )}
+            onClickOutside={handleHideMenu}
+          >
+            <div className={cx('user-img')} onClick={handleShow}>
+              <Avatar
+                className={cx('cover')}
+                name={currentUser?.fullname}
+                size="40"
+              />
             </div>
-          )}
-          onClickOutside={handleHideMenu}
-        >
-          <div className={cx('user-img')} onClick={handleShow}>
-            <Avatar
-              className={cx('cover')}
-              name={currentUser?.fullname}
-              size="40"
-            />
-          </div>
-        </Tippy>
+          </Tippy>
+        </div>
         <div className={cx('nav-icon')}>
           <button
             className={cx('nav-icon_item')}
